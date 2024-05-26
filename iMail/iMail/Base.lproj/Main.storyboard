@@ -32,24 +32,42 @@
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Pesquisar no Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jxU-NG-ZV1">
-                                        <rect key="frame" x="80" y="0.0" width="293" height="50"/>
+                                        <rect key="frame" x="80" y="0.0" width="258.66666666666669" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RPJ-s0-6yc">
+                                        <rect key="frame" x="338.66666666666669" y="0.0" width="34.333333333333314" height="50"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="+"/>
+                                        <connections>
+                                            <action selector="addNamePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oe5-3V-U9S"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="jxU-NG-ZV1" secondAttribute="bottom" id="11m-Cr-vh6"/>
                                     <constraint firstItem="5tH-Px-7FF" firstAttribute="centerY" secondItem="tzJ-J5-Q1k" secondAttribute="centerY" id="DWD-tf-fON"/>
-                                    <constraint firstItem="jxU-NG-ZV1" firstAttribute="top" secondItem="tzJ-J5-Q1k" secondAttribute="top" id="EdP-fn-hMx"/>
-                                    <constraint firstItem="jxU-NG-ZV1" firstAttribute="leading" secondItem="5tH-Px-7FF" secondAttribute="trailing" id="HGf-24-rGV"/>
-                                    <constraint firstAttribute="trailing" secondItem="jxU-NG-ZV1" secondAttribute="trailing" id="XZY-yX-ded"/>
+                                    <constraint firstAttribute="bottom" secondItem="RPJ-s0-6yc" secondAttribute="bottom" id="E0D-OY-8cX"/>
+                                    <constraint firstAttribute="trailing" secondItem="RPJ-s0-6yc" secondAttribute="trailing" id="Fei-UH-027"/>
+                                    <constraint firstItem="RPJ-s0-6yc" firstAttribute="leading" secondItem="jxU-NG-ZV1" secondAttribute="trailing" id="HLH-bm-Ygi"/>
+                                    <constraint firstAttribute="bottom" secondItem="jxU-NG-ZV1" secondAttribute="bottom" id="ND7-41-shA"/>
+                                    <constraint firstItem="jxU-NG-ZV1" firstAttribute="top" secondItem="tzJ-J5-Q1k" secondAttribute="top" id="Sdx-bR-cV5"/>
+                                    <constraint firstItem="jxU-NG-ZV1" firstAttribute="leading" secondItem="5tH-Px-7FF" secondAttribute="trailing" id="ZWy-Ih-TZy"/>
                                     <constraint firstAttribute="height" constant="50" id="gBA-UJ-SAJ"/>
+                                    <constraint firstItem="RPJ-s0-6yc" firstAttribute="top" secondItem="tzJ-J5-Q1k" secondAttribute="top" id="hVq-mU-RHU"/>
                                     <constraint firstItem="5tH-Px-7FF" firstAttribute="leading" secondItem="tzJ-J5-Q1k" secondAttribute="leading" constant="10" id="j9W-ke-DNH"/>
                                 </constraints>
                             </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="T8n-LA-2If">
+                                <rect key="frame" x="0.0" y="134" width="393" height="684"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="g3a-7h-zco"/>
+                                </connections>
+                            </tableView>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hNr-8Q-MFF">
                                 <rect key="frame" x="-280" y="0.0" width="393" height="852"/>
                                 <subviews>
@@ -68,6 +86,8 @@
                                             <constraint firstItem="rPJ-u1-m5u" firstAttribute="leading" secondItem="kcd-aP-XFZ" secondAttribute="leading" id="EOb-qW-mQD"/>
                                             <constraint firstAttribute="width" constant="280" id="Eep-3B-X7j"/>
                                             <constraint firstAttribute="trailing" secondItem="rPJ-u1-m5u" secondAttribute="trailing" id="NDm-3A-VgA"/>
+                                            <constraint firstItem="rPJ-u1-m5u" firstAttribute="top" secondItem="kcd-aP-XFZ" secondAttribute="top" id="epe-ZQ-vmx"/>
+                                            <constraint firstItem="rPJ-u1-m5u" firstAttribute="bottom" secondItem="kcd-aP-XFZ" secondAttribute="bottom" constant="-93" id="uzN-z1-g7J"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -88,12 +108,14 @@
                         <constraints>
                             <constraint firstItem="hNr-8Q-MFF" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="1tH-5j-IG6"/>
                             <constraint firstAttribute="bottom" secondItem="hNr-8Q-MFF" secondAttribute="bottom" id="Ixi-6N-fcq"/>
+                            <constraint firstItem="T8n-LA-2If" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="KVv-o3-vx0"/>
+                            <constraint firstItem="T8n-LA-2If" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Lc7-So-dVW"/>
+                            <constraint firstItem="T8n-LA-2If" firstAttribute="top" secondItem="tzJ-J5-Q1k" secondAttribute="bottom" constant="15" id="MfU-ek-Dic"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tzJ-J5-Q1k" secondAttribute="trailing" constant="10" id="NYM-dJ-ges"/>
                             <constraint firstItem="tzJ-J5-Q1k" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="Y98-Cl-kyv"/>
-                            <constraint firstItem="rPJ-u1-m5u" firstAttribute="top" secondItem="kcd-aP-XFZ" secondAttribute="top" id="epe-ZQ-vmx"/>
                             <constraint firstItem="hNr-8Q-MFF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="-280" id="gtu-Jc-lWW"/>
                             <constraint firstItem="tzJ-J5-Q1k" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="iDJ-dQ-f45"/>
-                            <constraint firstItem="rPJ-u1-m5u" firstAttribute="bottom" secondItem="kcd-aP-XFZ" secondAttribute="bottom" constant="-93" id="uzN-z1-g7J"/>
+                            <constraint firstItem="T8n-LA-2If" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="ut4-F0-1Hq"/>
                             <constraint firstItem="hNr-8Q-MFF" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="y3J-FJ-uWM"/>
                         </constraints>
                     </view>
@@ -103,6 +125,7 @@
                         <outlet property="leadingConstForMenuView" destination="gtu-Jc-lWW" id="xag-hj-odu"/>
                         <outlet property="menuView" destination="kcd-aP-XFZ" id="8C5-Nf-Q25"/>
                         <outlet property="searchView" destination="tzJ-J5-Q1k" id="401-pk-Orc"/>
+                        <outlet property="tableViewCxEntrada" destination="T8n-LA-2If" id="uJ2-pW-Og4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

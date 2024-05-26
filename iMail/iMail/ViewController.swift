@@ -9,7 +9,10 @@ import UIKit
 
 class ViewController: UIViewController, MenuViewControllerDelegate {
     
-
+    var names: [String] = []
+    
+    
+    @IBOutlet weak var tableViewCxEntrada: UITableView!
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var backViewForMenu: UIView!
     @IBOutlet weak var menuView: UIView!
@@ -20,7 +23,8 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
         backViewForMenu.isHidden = true
         setupMenuUI()
         
-        // Do any additional setup after loading the view.
+        //table view
+        tableViewCxEntrada.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     var menuViewController:MenuViewController?
@@ -34,6 +38,35 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
         }
     }
 
+    
+    @IBAction func addNamePressed(_ sender: Any) {
+        let alert = UIAlertController(title: "Nome", message: "Insira o nome", preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: "Salvar", style: .default) {
+            [unowned self] action in
+            
+            guard let textField = alert.textFields?.first,
+                  let nameToSave = textField.text else {
+                return
+            }
+            
+            self.names.append(nameToSave)
+            self.tableViewCxEntrada.reloadData()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel)
+        
+        alert.addTextField()
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
+    
+    
+    
+    
     @IBAction func tappedOnMenuBackView(_ sender: Any) {
         self.hidenMenuVIew()
         
@@ -86,3 +119,15 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
 
 }
 
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return names.count
+    }
+        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+        cell.textLabel?.text = names[indexPath.row]
+        return cell
+    }
+}
