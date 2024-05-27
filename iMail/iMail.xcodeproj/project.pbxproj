@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9056E4B52C04C8290013B114 /* SendEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9056E4B42C04C8290013B114 /* SendEmailViewController.swift */; };
 		90A60B4B2C038A320069045F /* iMail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 90A60B492C038A320069045F /* iMail.xcdatamodeld */; };
 		90D0BE522C0239330006145E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D0BE512C0239330006145E /* AppDelegate.swift */; };
 		90D0BE542C0239330006145E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D0BE532C0239330006145E /* SceneDelegate.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9056E4B42C04C8290013B114 /* SendEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendEmailViewController.swift; sourceTree = "<group>"; };
 		90A60B4A2C038A320069045F /* iMail.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iMail.xcdatamodel; sourceTree = "<group>"; };
 		90D0BE4E2C0239330006145E /* iMail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90D0BE512C0239330006145E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 				90D0BE532C0239330006145E /* SceneDelegate.swift */,
 				90D0BE552C0239330006145E /* ViewController.swift */,
 				90D0BE572C0239330006145E /* Main.storyboard */,
+				9056E4B42C04C8290013B114 /* SendEmailViewController.swift */,
 				90D0BE5A2C0239330006145E /* Assets.xcassets */,
 				90D0BE5C2C0239330006145E /* LaunchScreen.storyboard */,
 				90D0BE5F2C0239330006145E /* Info.plist */,
@@ -147,6 +150,7 @@
 				90D0BE562C0239330006145E /* ViewController.swift in Sources */,
 				90D0BE522C0239330006145E /* AppDelegate.swift in Sources */,
 				90D0BE542C0239330006145E /* SceneDelegate.swift in Sources */,
+				9056E4B52C04C8290013B114 /* SendEmailViewController.swift in Sources */,
 				90D0BE662C023D1C0006145E /* MenuViewController.swift in Sources */,
 				90A60B4B2C038A320069045F /* iMail.xcdatamodeld in Sources */,
 			);
