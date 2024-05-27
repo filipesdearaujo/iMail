@@ -61,7 +61,6 @@
 			isa = PBXGroup;
 			children = (
 				90D0BE512C0239330006145E /* AppDelegate.swift */,
-				90A60B492C038A320069045F /* iMail.xcdatamodeld */,
 				90D0BE652C023D1C0006145E /* MenuViewController.swift */,
 				90D0BE532C0239330006145E /* SceneDelegate.swift */,
 				90D0BE552C0239330006145E /* ViewController.swift */,
@@ -69,6 +68,7 @@
 				90D0BE5A2C0239330006145E /* Assets.xcassets */,
 				90D0BE5C2C0239330006145E /* LaunchScreen.storyboard */,
 				90D0BE5F2C0239330006145E /* Info.plist */,
+				90A60B492C038A320069045F /* iMail.xcdatamodeld */,
 			);
 			path = iMail;
 			sourceTree = "<group>";

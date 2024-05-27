@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  iMail
 //
-//  Created by Yuri Araujo on 25/05/24.
+//  Created by Filipe Simões on 25/05/24.
 //
 
 import UIKit

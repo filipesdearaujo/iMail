@@ -2,7 +2,7 @@
 //  MenuViewController.swift
 //  iMail
 //
-//  Created by Yuri Araujo on 25/05/24.
+//  Created by Filipe Simões on 25/05/24.
 //
 
 import UIKit
@@ -28,8 +28,14 @@ override func viewDidLoad() {
     }
     
     private func setupMenuUI() {
-        self.profileMenuView.layer.cornerRadius = 20
-        self.profileMenuView.clipsToBounds = true
+        let path = UIBezierPath(
+                    roundedRect: profileMenuView.bounds,
+                    byRoundingCorners: [.bottomRight],
+                    cornerRadii: CGSize(width: 20, height: 20)
+                )
+                let mask = CAShapeLayer()
+                mask.path = path.cgPath
+        profileMenuView.layer.mask = mask
         
         self.profilePictureImage.layer.cornerRadius = 45
         self.profilePictureImage.clipsToBounds = true

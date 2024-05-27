@@ -176,7 +176,7 @@
 //  ViewController.swift
 //  iMail
 //
-//  Created by Yuri Araujo on 25/05/24.
+//  Created by Filipe Simões on 25/05/24.
 //
 
 import UIKit
@@ -185,12 +185,16 @@ import CoreData
 class ViewController: UIViewController, MenuViewControllerDelegate {
     
     var people: [NSManagedObject] = []
+    var menuViewController: MenuViewController?
+
     
     @IBOutlet weak var tableViewCxEntrada: UITableView!
-    @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var backViewForMenu: UIView!
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var leadingConstForMenuView: NSLayoutConstraint!
+    @IBOutlet weak var sendEmailButton: UIButton!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -218,9 +222,7 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
         }
     }
     
-    
-    var menuViewController: MenuViewController?
-    
+        
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "menuSegue") {
             if let controller = segue.destination as? MenuViewController {
@@ -297,7 +299,7 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
             self.backViewForMenu.isHidden = false
         }
     }
-    
+
     func hidenMenuVIew() {
         self.hideMenuView()
     }
@@ -318,8 +320,9 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
     }
     
     private func setupMenuUI() {
-        self.searchView.layer.cornerRadius = 5
-        self.searchView.clipsToBounds = true
+        sendEmailButton.layer.cornerRadius = 20  // Metade da altura do botão para bordas totalmente arredondadas
+        sendEmailButton.clipsToBounds = true
+
     }
     
     func save(name: String) {
