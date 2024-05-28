@@ -136,14 +136,6 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
         self.hideMenuView()
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
     private func hideMenuView() {
         UIView.animate(withDuration: 0.2, animations: {
             self.leadingConstForMenuView.constant = 10
@@ -177,7 +169,7 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
         
         let person = NSManagedObject(entity: entity, insertInto: managedContext)
         person.setValue(name, forKey: "name")
-        
+
         do {
             try managedContext.save()
             people.append(person)

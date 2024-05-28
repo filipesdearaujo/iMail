@@ -121,23 +121,11 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Destinatario" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWN-tr-QaE">
-                                        <rect key="frame" x="115.66666666666666" y="235.99999999999994" width="130" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="130" id="Jy8-5B-b8Y"/>
-                                            <constraint firstAttribute="height" constant="40" id="kSn-Jw-Dhe"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="MWN-tr-QaE" firstAttribute="top" secondItem="HBY-Pc-5gr" secondAttribute="bottom" constant="20" id="2KT-Cm-iWM"/>
                                     <constraint firstItem="VKl-9k-DGq" firstAttribute="leading" secondItem="Ngk-Kh-B3D" secondAttribute="leading" id="3U3-Um-WFh"/>
                                     <constraint firstItem="HBY-Pc-5gr" firstAttribute="top" secondItem="VKl-9k-DGq" secondAttribute="bottom" constant="15" id="89c-GN-BSc"/>
-                                    <constraint firstItem="MWN-tr-QaE" firstAttribute="centerX" secondItem="t1k-oA-2Br" secondAttribute="centerX" id="H43-oE-4BY"/>
                                     <constraint firstItem="Ngk-Kh-B3D" firstAttribute="top" secondItem="t1k-oA-2Br" secondAttribute="top" constant="15" id="Ig4-ab-0Ri"/>
                                     <constraint firstItem="HBY-Pc-5gr" firstAttribute="trailing" secondItem="hmw-0a-EOo" secondAttribute="trailing" id="T13-ak-oik"/>
                                     <constraint firstItem="HBY-Pc-5gr" firstAttribute="leading" secondItem="hmw-0a-EOo" secondAttribute="leading" id="TjY-2R-sv0"/>
@@ -167,8 +155,11 @@
                     <navigationItem key="navigationItem" id="PFY-6u-QV2"/>
                     <connections>
                         <outlet property="destRemView" destination="Q9m-Qv-miZ" id="n9g-g3-NAt"/>
-                        <outlet property="destinatarioLabel" destination="MWN-tr-QaE" id="V3o-Hx-tSJ"/>
+                        <outlet property="messageTextField" destination="HBY-Pc-5gr" id="WAf-5y-RdV"/>
                         <outlet property="sendEmailButton" destination="gAg-aQ-rg1" id="H1f-BM-wcs"/>
+                        <outlet property="senderTextField" destination="qAX-zx-5yr" id="drH-Az-oSF"/>
+                        <outlet property="subjectEmailTextField" destination="hmw-0a-EOo" id="u40-h2-6CQ"/>
+                        <outlet property="toTextField" destination="IhE-cJ-eGy" id="Prf-YF-6Fc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M4C-Fn-4JY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -255,7 +246,7 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="T8n-LA-2If">
                                         <rect key="frame" x="0.0" y="84" width="393" height="612.33333333333337"/>
                                         <color key="backgroundColor" red="0.93725490196078431" green="0.94117647058823528" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="separatorColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="separatorColor" red="0.97647058819999999" green="0.4039215686" blue="0.51372549020000002" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="dataSource" destination="BYZ-38-t0r" id="g3a-7h-zco"/>
                                         </connections>
@@ -587,9 +578,9 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="6bp-9U-0Pe">
                                         <rect key="frame" x="0.0" y="84" width="393" height="612.33333333333337"/>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="separatorColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="separatorColor" red="0.97647058819999999" green="0.4039215686" blue="0.51372549020000002" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <connections>
-                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="LdZ-oA-16f"/>
+                                            <outlet property="dataSource" destination="mBi-BM-YWT" id="Fnh-Ur-ws4"/>
                                         </connections>
                                     </tableView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enviados" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4E9-da-LfE">
@@ -598,6 +589,15 @@
                                         <color key="textColor" red="0.97647058819999999" green="0.39607843139999999" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="hug-45-WDa">
+                                        <rect key="frame" x="0.0" y="325.33333333333326" width="393" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Apagar"/>
+                                        <connections>
+                                            <action selector="removeButtonPressed:" destination="mBi-BM-YWT" eventType="touchUpInside" id="2z1-Vq-hbN"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -626,10 +626,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yJF-lp-QHO"/>
+                    <connections>
+                        <outlet property="tableViewDelivered" destination="6bp-9U-0Pe" id="q4l-BD-67r"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gRJ-dN-yEG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2335" y="-27"/>
+            <point key="canvasLocation" x="2333.5877862595421" y="-27.464788732394368"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="v4W-ay-a3e">

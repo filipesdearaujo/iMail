@@ -14,6 +14,10 @@ class SendEmailViewController: UIViewController {
     @IBOutlet weak var destRemView: UIView!
     @IBOutlet weak var sendEmailButton: UIButton!
     @IBOutlet weak var destinatarioLabel: UILabel!
+    @IBOutlet weak var messageTextField: UITextField!
+    @IBOutlet weak var senderTextField: UITextField!
+    @IBOutlet weak var subjectEmailTextField: UITextField!
+    @IBOutlet weak var toTextField: UITextField!
     
     
     override func viewDidLoad() {
@@ -23,26 +27,38 @@ class SendEmailViewController: UIViewController {
     }
     
     @IBAction func sendButtonClicked(_ sender: Any) {
-        let alert = UIAlertController(title: "Nome", message: "Insira o nome", preferredStyle: .alert)
-                
-                let saveAction = UIAlertAction(title: "Salvar", style: .default) {
-                    [unowned self] action in
-                    
-                    guard let textField = alert.textFields?.first,
-                          let nameToSave = textField.text else {
-                        return
-                    }
-                    
-                    save(name: nameToSave)
-                }
-                
-                let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel)
-                
-                alert.addTextField()
-                alert.addAction(saveAction)
-                alert.addAction(cancelAction)
-                
-                present(alert, animated: true)
+        guard let nameToSave = messageTextField.text, !nameToSave.isEmpty else {
+                // Se o campo de texto estiver vazio, não faça nada
+                return
+            }
+        save(name: nameToSave)
+          let alertController = UIAlertController(title: "Sucesso", message: "O e-mail foi enviado", preferredStyle: .alert)
+          let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+              self.dismiss(animated: true, completion: nil)
+          }
+          alertController.addAction(okAction)
+          present(alertController, animated: true, completion: nil)
+        
+//        let alert = UIAlertController(title: "Nome", message: "Insira o nome", preferredStyle: .alert)
+//                
+//                let saveAction = UIAlertAction(title: "Salvar", style: .default) {
+//                    [unowned self] action in
+//                    
+//                    guard let textField = alert.textFields?.first,
+//                          let nameToSave = textField.text else {
+//                        return
+//                    }
+//                    
+//                    save(name: nameToSave)
+//                }
+//                
+//                let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel)
+//                
+//                alert.addTextField()
+//                alert.addAction(saveAction)
+//                alert.addAction(cancelAction)
+//                
+//                present(alert, animated: true)
 
     }
     
@@ -61,17 +77,10 @@ class SendEmailViewController: UIViewController {
                 do {
                     try managedContext.save()
                     people.append(person)
-                    updateLabel()
                 } catch let error as NSError {
                     print("Erro ao salvar o remetente \(error)")
                 }
     }
-    
-    func updateLabel() {
-            if let lastPerson = people.last, let name = lastPerson.value(forKey: "sender") as? String {
-                destinatarioLabel.text = name
-            }
-        }
     
     func setupUI() {
         navigationController?.isNavigationBarHidden = true
@@ -89,16 +98,5 @@ class SendEmailViewController: UIViewController {
         sendEmailButton.layer.cornerRadius = 20
         sendEmailButton.clipsToBounds = true
         //atualizar dado botao
-        updateLabel()
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
