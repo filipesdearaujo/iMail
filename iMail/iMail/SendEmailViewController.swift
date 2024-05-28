@@ -74,6 +74,7 @@ class SendEmailViewController: UIViewController {
         }
     
     func setupUI() {
+        navigationController?.isNavigationBarHidden = true
         //bordas UIView
         let path = UIBezierPath(
                    roundedRect: destRemView.bounds,
@@ -87,6 +88,8 @@ class SendEmailViewController: UIViewController {
         //botão enviar email
         sendEmailButton.layer.cornerRadius = 20
         sendEmailButton.clipsToBounds = true
+        //atualizar dado botao
+        updateLabel()
     }
     /*
     // MARK: - Navigation

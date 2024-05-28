@@ -42,9 +42,17 @@ override func viewDidLoad() {
     }
     
     
-    @IBAction func MenuButtonClicked(_ sender: Any) {
+    @IBAction func MenuButtonClicked(_ sender: UIButton) {
         self.delegate?.hidenMenuVIew()
         //dismiss Menu When clicked on this button
+        
+        if sender.tag == 5 {
+                if let nextVC = storyboard?.instantiateViewController(withIdentifier: "DeliveredViewController") as? DeliveredViewController {
+                    navigationController?.pushViewController(nextVC, animated: true)
+                }
+            }
+
+        
     }
     
     

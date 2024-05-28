@@ -57,7 +57,11 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
     }
 
     
-    @IBAction func addNamePressed(_ sender: Any) {
+    @IBAction func addNamePressed(_ sender: UIButton) {
+        
+        if let nextVC = storyboard?.instantiateViewController(identifier: "SendEmailViewController") as? SendEmailViewController {
+            present(nextVC, animated: true)
+        }
 //        let alert = UIAlertController(title: "Nome", message: "Insira o nome", preferredStyle: .alert)
 //        
 //        let saveAction = UIAlertAction(title: "Salvar", style: .default) {
@@ -81,6 +85,10 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
 //        present(alert, animated: true)
     }
         
+    
+    
+    
+    
     @IBAction func removeNamePressed(_ sender: Any) {
         let alert = UIAlertController(title: "Remover Nome", message: "Insira o nome a ser removido", preferredStyle: .alert)
         
@@ -128,6 +136,14 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
         self.hideMenuView()
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
     private func hideMenuView() {
         UIView.animate(withDuration: 0.2, animations: {
             self.leadingConstForMenuView.constant = 10
@@ -146,7 +162,9 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
     private func setupMenuUI() {
         sendEmailButton.layer.cornerRadius = 20
         sendEmailButton.clipsToBounds = true
-
+        
+        //cor do botao do Navigation Controller
+        navigationController?.navigationBar.tintColor = UIColor.white
     }
     
     func save(name: String) {

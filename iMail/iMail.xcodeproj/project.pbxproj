@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		901568EE2C05F90B006D6453 /* DeliveredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901568ED2C05F90B006D6453 /* DeliveredViewController.swift */; };
+		902977C82C04E37900D056F6 /* iMail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 902977C62C04E37900D056F6 /* iMail.xcdatamodeld */; };
 		9056E4B52C04C8290013B114 /* SendEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9056E4B42C04C8290013B114 /* SendEmailViewController.swift */; };
-		90A60B4B2C038A320069045F /* iMail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 90A60B492C038A320069045F /* iMail.xcdatamodeld */; };
 		90D0BE522C0239330006145E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D0BE512C0239330006145E /* AppDelegate.swift */; };
 		90D0BE542C0239330006145E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D0BE532C0239330006145E /* SceneDelegate.swift */; };
 		90D0BE562C0239330006145E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D0BE552C0239330006145E /* ViewController.swift */; };
@@ -19,8 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		901568ED2C05F90B006D6453 /* DeliveredViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveredViewController.swift; sourceTree = "<group>"; };
+		902977C72C04E37900D056F6 /* iMail.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iMail.xcdatamodel; sourceTree = "<group>"; };
 		9056E4B42C04C8290013B114 /* SendEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendEmailViewController.swift; sourceTree = "<group>"; };
-		90A60B4A2C038A320069045F /* iMail.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iMail.xcdatamodel; sourceTree = "<group>"; };
 		90D0BE4E2C0239330006145E /* iMail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90D0BE512C0239330006145E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90D0BE532C0239330006145E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,11 +69,12 @@
 				90D0BE532C0239330006145E /* SceneDelegate.swift */,
 				90D0BE552C0239330006145E /* ViewController.swift */,
 				90D0BE572C0239330006145E /* Main.storyboard */,
+				901568ED2C05F90B006D6453 /* DeliveredViewController.swift */,
 				9056E4B42C04C8290013B114 /* SendEmailViewController.swift */,
 				90D0BE5A2C0239330006145E /* Assets.xcassets */,
 				90D0BE5C2C0239330006145E /* LaunchScreen.storyboard */,
 				90D0BE5F2C0239330006145E /* Info.plist */,
-				90A60B492C038A320069045F /* iMail.xcdatamodeld */,
+				902977C62C04E37900D056F6 /* iMail.xcdatamodeld */,
 			);
 			path = iMail;
 			sourceTree = "<group>";
@@ -148,11 +151,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				90D0BE562C0239330006145E /* ViewController.swift in Sources */,
+				901568EE2C05F90B006D6453 /* DeliveredViewController.swift in Sources */,
 				90D0BE522C0239330006145E /* AppDelegate.swift in Sources */,
 				90D0BE542C0239330006145E /* SceneDelegate.swift in Sources */,
 				9056E4B52C04C8290013B114 /* SendEmailViewController.swift in Sources */,
+				902977C82C04E37900D056F6 /* iMail.xcdatamodeld in Sources */,
 				90D0BE662C023D1C0006145E /* MenuViewController.swift in Sources */,
-				90A60B4B2C038A320069045F /* iMail.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,14 +377,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		90A60B492C038A320069045F /* iMail.xcdatamodeld */ = {
+		902977C62C04E37900D056F6 /* iMail.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				90A60B4A2C038A320069045F /* iMail.xcdatamodel */,
+				902977C72C04E37900D056F6 /* iMail.xcdatamodel */,
 			);
-			currentVersion = 90A60B4A2C038A320069045F /* iMail.xcdatamodel */;
+			currentVersion = 902977C72C04E37900D056F6 /* iMail.xcdatamodel */;
 			name = iMail.xcdatamodeld;
-			path = /Users/yuriaraujo/Desktop/iMail/iMail/iMail/iMail.xcdatamodeld;
+			path = "/Users/yuriaraujo/Downloads/iMail-main/iMail/iMail/iMail.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
