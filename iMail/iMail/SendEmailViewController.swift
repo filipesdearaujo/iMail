@@ -67,8 +67,6 @@ class SendEmailViewController: UIViewController {
 //                present(alert, animated: true)
 
     }
-    
-    
     func save(sender: String, message: String, subject: String, to: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -83,6 +81,23 @@ class SendEmailViewController: UIViewController {
         email.setValue(subject, forKey: "subject")
         email.setValue(to, forKey: "to")
         
+        // Busca o último índice
+        let fetchRequest: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Emails")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "index", ascending: false)]
+        fetchRequest.fetchLimit = 1
+        
+        do {
+            if let lastEmail = try managedContext.fetch(fetchRequest).first,
+               let lastIndex = lastEmail.value(forKey: "index") as? Int {
+                email.setValue(lastIndex + 1, forKey: "index")
+            } else {
+                // Se não há emails ainda, define o índice como 0
+                email.setValue(0, forKey: "index")
+            }
+        } catch let error as NSError {
+            print("Erro ao recuperar o último índice: \(error)")
+        }
+        
         do {
             try managedContext.save()
             people.append(email)
@@ -90,6 +105,30 @@ class SendEmailViewController: UIViewController {
             print("Erro ao salvar o email: \(error)")
         }
     }
+
+
+    
+//    func save(sender: String, message: String, subject: String, to: String) {
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+//            return
+//        }
+//        
+//        let managedContext = appDelegate.persistentContainer.viewContext
+//        let entity = NSEntityDescription.entity(forEntityName: "Emails", in: managedContext)!
+//        
+//        let email = NSManagedObject(entity: entity, insertInto: managedContext)
+//        email.setValue(sender, forKey: "sender")
+//        email.setValue(message, forKey: "message")
+//        email.setValue(subject, forKey: "subject")
+//        email.setValue(to, forKey: "to")
+//        
+//        do {
+//            try managedContext.save()
+//            people.append(email)
+//        } catch let error as NSError {
+//            print("Erro ao salvar o email: \(error)")
+//        }
+//    }
     
     func setupUI() {
         navigationController?.isNavigationBarHidden = true

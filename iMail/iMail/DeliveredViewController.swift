@@ -108,7 +108,30 @@ extension DeliveredViewController: UITableViewDataSource {
         }
         return cell
     }
+    //ajusta a altura da celula
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             return 100
         }
+    //torna as celulas clicáveis
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Aqui você pode acessar a célula selecionada e realizar as ações desejadas
+        let selectedEmail = dados[indexPath.row]
+        print("Email selecionado:", selectedEmail)
+        
+        // Extrair o índice do objeto NSManagedObject
+        guard let index = selectedEmail.value(forKey: "index") as? Int else {
+            print("Erro: Não foi possível obter o índice do objeto NSManagedObject.")
+            return
+        }
+
+        // Instanciando EmailDetailsViewController a partir do storyboard
+        if let emailDetailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EmailDetailsViewController") as? EmailDetailsViewController {
+            // Passando o índice do email para a próxima tela
+            emailDetailsVC.index = index
+            
+            // Apresentando o EmailDetailsViewController
+            present(emailDetailsVC, animated: true)
+        }
+    }
 }
