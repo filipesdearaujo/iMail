@@ -2,23 +2,22 @@
 //  DeliveredViewController.swift
 //  iMail
 //
-//  Created by Yuri Araujo on 28/05/24.
+//  Created by Filipe Simões on 28/05/24.
 //
 
 import UIKit
 import CoreData
 
-class DeliveredViewController: UIViewController {
+class DeliveredViewController: UIViewController, UITableViewDelegate {
     
     var dados: [NSManagedObject] = []
 
     @IBOutlet weak var tableViewDelivered: UITableView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableViewDelivered.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        // Do any additional setup after loading the view.
+        tableViewDelivered.register(DeliveredTableViewCell.nib, forCellReuseIdentifier: DeliveredTableViewCell.cell)
+        //tableViewDelivered.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,7 +38,7 @@ class DeliveredViewController: UIViewController {
     }
     
     @IBAction func removeButtonPressed(_ sender: Any) {
-        let alert = UIAlertController(title: "Remover Nome", message: "Insira o nome a ser removido", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Remover Nome", message: "Insira o nome de quem enviou o email a ser removido", preferredStyle: .alert)
         
         let removeAction = UIAlertAction(title: "Remover", style: .destructive) {
             [unowned self] action in
@@ -91,11 +90,25 @@ extension DeliveredViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dados.count
     }
-        
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        guard let cell = tableViewDelivered.dequeueReusableCell(withIdentifier: DeliveredTableViewCell.cell, for: indexPath) as? DeliveredTableViewCell else {
+            fatalError("The dequeued cell is not an instance of DeliveredTableViewCell.")
+        }
+        
         let email = dados[indexPath.row]
-        cell.textLabel?.text = email.value(forKey: "sender") as? String
+        
+        // Configure a célula com os atributos da entidade "Emails"
+        if let to = email.value(forKey: "to") as? String,
+           let message = email.value(forKey: "message") as? String,
+           let subject = email.value(forKey: "subject") as? String {
+            cell.toLabel.text = to
+            cell.subjectLabel.text = subject
+            cell.messageLabel.text = message
+        }
         return cell
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            return 100
+        }
 }

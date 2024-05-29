@@ -5,6 +5,7 @@
         <attribute name="message" optional="YES" attributeType="String"/>
         <attribute name="sender" optional="YES" attributeType="String"/>
         <attribute name="subject" optional="YES" attributeType="String"/>
+        <attribute name="to" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Person" representedClassName="Person" syncable="YES" codeGenerationType="class">
         <attribute name="email" optional="YES" attributeType="String"/>

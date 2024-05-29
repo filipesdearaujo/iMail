@@ -2,7 +2,7 @@
 //  SendEmailViewController.swift
 //  iMail
 //
-//  Created by Yuri Araujo on 27/05/24.
+//  Created by Filipe Simões on 27/05/24.
 //
 
 import UIKit
@@ -13,7 +13,6 @@ class SendEmailViewController: UIViewController {
     var people: [NSManagedObject] = []
     @IBOutlet weak var destRemView: UIView!
     @IBOutlet weak var sendEmailButton: UIButton!
-    @IBOutlet weak var destinatarioLabel: UILabel!
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var senderTextField: UITextField!
     @IBOutlet weak var subjectEmailTextField: UITextField!
@@ -27,18 +26,25 @@ class SendEmailViewController: UIViewController {
     }
     
     @IBAction func sendButtonClicked(_ sender: Any) {
-        guard let nameToSave = messageTextField.text, !nameToSave.isEmpty else {
-                // Se o campo de texto estiver vazio, não faça nada
+        guard let sender = senderTextField.text, !sender.isEmpty,
+                  let message = messageTextField.text, !message.isEmpty,
+                  let subject = subjectEmailTextField.text, !subject.isEmpty,
+                  let to = toTextField.text, !to.isEmpty else {
+                print("há um campo em vazio")
                 return
             }
-        save(name: nameToSave)
-          let alertController = UIAlertController(title: "Sucesso", message: "O e-mail foi enviado", preferredStyle: .alert)
-          let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-              self.dismiss(animated: true, completion: nil)
-          }
-          alertController.addAction(okAction)
-          present(alertController, animated: true, completion: nil)
-        
+
+            // Chame a função save para salvar os dados no Core Data
+            save(sender: sender, message: message, subject: subject, to: to)
+            
+            // Apresente um alerta informando que o email foi enviado
+            let alertController = UIAlertController(title: "Sucesso", message: "O e-mail foi enviado", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                self.dismiss(animated: true, completion: nil)
+            }
+            alertController.addAction(okAction)
+            present(alertController, animated: true, completion: nil)
+
 //        let alert = UIAlertController(title: "Nome", message: "Insira o nome", preferredStyle: .alert)
 //                
 //                let saveAction = UIAlertAction(title: "Salvar", style: .default) {
@@ -63,23 +69,26 @@ class SendEmailViewController: UIViewController {
     }
     
     
-    func save(name: String) {
+    func save(sender: String, message: String, subject: String, to: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                    return
-                }
-                
-                let managedContext = appDelegate.persistentContainer.viewContext
-                let entity = NSEntityDescription.entity(forEntityName: "Emails", in: managedContext)!
-                
-                let person = NSManagedObject(entity: entity, insertInto: managedContext)
-                person.setValue(name, forKey: "sender")
-                
-                do {
-                    try managedContext.save()
-                    people.append(person)
-                } catch let error as NSError {
-                    print("Erro ao salvar o remetente \(error)")
-                }
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Emails", in: managedContext)!
+        
+        let email = NSManagedObject(entity: entity, insertInto: managedContext)
+        email.setValue(sender, forKey: "sender")
+        email.setValue(message, forKey: "message")
+        email.setValue(subject, forKey: "subject")
+        email.setValue(to, forKey: "to")
+        
+        do {
+            try managedContext.save()
+            people.append(email)
+        } catch let error as NSError {
+            print("Erro ao salvar o email: \(error)")
+        }
     }
     
     func setupUI() {
