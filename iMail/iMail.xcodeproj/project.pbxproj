@@ -10,6 +10,7 @@
 		901568EE2C05F90B006D6453 /* DeliveredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901568ED2C05F90B006D6453 /* DeliveredViewController.swift */; };
 		9015D3962C0779B6008A2FF0 /* EmailDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9015D3952C0779B6008A2FF0 /* EmailDetailsViewController.swift */; };
 		902977C82C04E37900D056F6 /* iMail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 902977C62C04E37900D056F6 /* iMail.xcdatamodeld */; };
+		904526042C08AAC100279371 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904526032C08AAC100279371 /* LoginViewController.swift */; };
 		9048FC1F2C0763B600F793E1 /* DeliveredTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9048FC1D2C0763B600F793E1 /* DeliveredTableViewCell.swift */; };
 		9048FC222C07673E00F793E1 /* DeliveredTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9048FC212C07673E00F793E1 /* DeliveredTableViewCell.xib */; };
 		9056E4B52C04C8290013B114 /* SendEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9056E4B42C04C8290013B114 /* SendEmailViewController.swift */; };
@@ -26,6 +27,7 @@
 		901568ED2C05F90B006D6453 /* DeliveredViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveredViewController.swift; sourceTree = "<group>"; };
 		9015D3952C0779B6008A2FF0 /* EmailDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailDetailsViewController.swift; sourceTree = "<group>"; };
 		902977C72C04E37900D056F6 /* iMail.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iMail.xcdatamodel; sourceTree = "<group>"; };
+		904526032C08AAC100279371 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9048FC1D2C0763B600F793E1 /* DeliveredTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveredTableViewCell.swift; sourceTree = "<group>"; };
 		9048FC212C07673E00F793E1 /* DeliveredTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DeliveredTableViewCell.xib; path = ../../../../.Trash/DeliveredTableViewCell.xib; sourceTree = "<group>"; };
 		9056E4B42C04C8290013B114 /* SendEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendEmailViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 				90D0BE532C0239330006145E /* SceneDelegate.swift */,
 				90D0BE552C0239330006145E /* ViewController.swift */,
 				90D0BE572C0239330006145E /* Main.storyboard */,
+				904526032C08AAC100279371 /* LoginViewController.swift */,
 				9015D3952C0779B6008A2FF0 /* EmailDetailsViewController.swift */,
 				9048FC1D2C0763B600F793E1 /* DeliveredTableViewCell.swift */,
 				901568ED2C05F90B006D6453 /* DeliveredViewController.swift */,
@@ -168,6 +171,7 @@
 				902977C82C04E37900D056F6 /* iMail.xcdatamodeld in Sources */,
 				9048FC1F2C0763B600F793E1 /* DeliveredTableViewCell.swift in Sources */,
 				9015D3962C0779B6008A2FF0 /* EmailDetailsViewController.swift in Sources */,
+				904526042C08AAC100279371 /* LoginViewController.swift in Sources */,
 				90D0BE662C023D1C0006145E /* MenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

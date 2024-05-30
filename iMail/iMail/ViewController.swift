@@ -29,7 +29,7 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        navigationItem.hidesBackButton = true
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -152,7 +152,6 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
     private func setupMenuUI() {
         sendEmailButton.layer.cornerRadius = 20
         sendEmailButton.clipsToBounds = true
-        
         //cor do botao do Navigation Controller
         navigationController?.navigationBar.tintColor = UIColor.white
     }

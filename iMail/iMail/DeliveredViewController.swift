@@ -8,6 +8,10 @@
 import UIKit
 import CoreData
 
+protocol MenuViewControllerDelegate: AnyObject {
+    func hidenMenuVIew()
+}
+
 class DeliveredViewController: UIViewController, UITableViewDelegate {
     
     var dados: [NSManagedObject] = []
