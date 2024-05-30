@@ -13,6 +13,7 @@ class DeliveredTableViewCell: UITableViewCell {
     @IBOutlet weak var toLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

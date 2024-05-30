@@ -11,22 +11,21 @@ import CoreData
 class DeliveredViewController: UIViewController, UITableViewDelegate {
     
     var dados: [NSManagedObject] = []
-
+    
     @IBOutlet weak var tableViewDelivered: UITableView!
+    @IBOutlet weak var reloadButton: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableViewDelivered.register(DeliveredTableViewCell.nib, forCellReuseIdentifier: DeliveredTableViewCell.cell)
         //tableViewDelivered.delegate = self
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
-        
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Emails")
         
@@ -37,52 +36,8 @@ class DeliveredViewController: UIViewController, UITableViewDelegate {
         }
     }
     
-    @IBAction func removeButtonPressed(_ sender: Any) {
-        let alert = UIAlertController(title: "Remover Nome", message: "Insira o nome de quem enviou o email a ser removido", preferredStyle: .alert)
-        
-        let removeAction = UIAlertAction(title: "Remover", style: .destructive) {
-            [unowned self] action in
-            
-            guard let textField = alert.textFields?.first,
-                  let nameToRemove = textField.text else {
-                return
-            }
-            
-            remove(name: nameToRemove)
-            self.tableViewDelivered.reloadData()
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel)
-        
-        alert.addTextField()
-        alert.addAction(removeAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true)
-
-    }
-    
-    
-    
-    func remove(name: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Emails")
-        fetchRequest.predicate = NSPredicate(format: "sender == %@", name)
-        
-        do {
-            let fetchedResults = try managedContext.fetch(fetchRequest)
-            for entity in fetchedResults {
-                managedContext.delete(entity)
-            }
-            try managedContext.save()
-            dados = try managedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Emails"))
-        } catch let error as NSError {
-            print("Erro ao remover o nome \(error)")
-        }
+    @IBAction func reloadButtonPressed(_ sender: Any) {
+        tableViewDelivered.reloadData()
     }
 }
 
@@ -101,10 +56,14 @@ extension DeliveredViewController: UITableViewDataSource {
         // Configure a célula com os atributos da entidade "Emails"
         if let to = email.value(forKey: "to") as? String,
            let message = email.value(forKey: "message") as? String,
-           let subject = email.value(forKey: "subject") as? String {
+           let subject = email.value(forKey: "subject") as? String,
+           let date = email.value(forKey: "date") as? Date {
             cell.toLabel.text = to
             cell.subjectLabel.text = subject
             cell.messageLabel.text = message
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yy"
+            cell.dateLabel.text = dateFormatter.string(from: date)
         }
         return cell
     }

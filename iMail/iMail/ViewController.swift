@@ -20,8 +20,6 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
     @IBOutlet weak var leadingConstForMenuView: NSLayoutConstraint!
     @IBOutlet weak var sendEmailButton: UIButton!
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         backViewForMenu.isHidden = true

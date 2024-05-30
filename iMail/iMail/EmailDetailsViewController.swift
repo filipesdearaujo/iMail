@@ -1,29 +1,47 @@
-//
-//  EmailDetailsViewController.swift
-//  iMail
-//
-//  Created by Filipe Simões on 29/05/24.
-//
-
 import UIKit
 import CoreData
 
 class EmailDetailsViewController: UIViewController {
 
     var index: Int = 0
+    var dados: [NSManagedObject] = []
     
     @IBOutlet weak var senderLabel: UILabel!
     @IBOutlet weak var toLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Abriu a tela de recebi os dados:")
-        print(index)
-        
-        // Carregar e exibir os detalhes do email
         loadEmailDetails()
+    }
+
+    @IBAction func removeButtonPressed(_ sender: Any) {
+        remove(index:  index)
+        dismiss(animated: true)
+    }
+    
+    func remove(index: Int) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Emails")
+        fetchRequest.predicate = NSPredicate(format: "index == %d", index)
+        
+        do {
+            let fetchedResults = try managedContext.fetch(fetchRequest)
+            for entity in fetchedResults {
+                managedContext.delete(entity)
+            }
+            try managedContext.save()
+            dados = try managedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Emails"))
+        } catch let error as NSError {
+            print("Erro ao remover o email: \(error)")
+        }
     }
     
     func loadEmailDetails() {
@@ -51,6 +69,16 @@ class EmailDetailsViewController: UIViewController {
                 if let message = email.value(forKey: "message") as? String {
                     messageLabel.text = message
                 }
+                
+                // Exibir a data
+                if let date = email.value(forKey: "date") as? Date {
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+                    let dateString = dateFormatter.string(from: date)
+                    dateLabel.text = "Data: \(dateString)"
+                } else {
+                    dateLabel.text = "Data: Indisponível"
+                }
             } else {
                 print("Erro: Não foi possível encontrar o email com o índice especificado.")
             }
@@ -59,4 +87,3 @@ class EmailDetailsViewController: UIViewController {
         }
     }
 }
-
