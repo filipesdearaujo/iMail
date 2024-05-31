@@ -4,6 +4,7 @@ import CoreData
 class SendEmailViewController: UIViewController {
 
     var emails: [NSManagedObject] = []
+    var senderEmail: String?
     
     @IBOutlet weak var destRemView: UIView!
     @IBOutlet weak var sendEmailButton: UIButton!
@@ -15,6 +16,28 @@ class SendEmailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        loadSenderEmail()
+    }
+    
+    func loadSenderEmail() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Person")
+        
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            if let person = result.first, let email = person.value(forKey: "email") as? String {
+                senderEmail = email
+                senderTextField.text = email
+            } else {
+                print("Nenhum email encontrado")
+            }
+        } catch let error as NSError {
+            print("Erro ao carregar o email do remetente: \(error)")
+        }
     }
     
     @IBAction func sendButtonClicked(_ sender: Any) {
@@ -80,8 +103,6 @@ class SendEmailViewController: UIViewController {
     
     func setupUI() {
         navigationController?.isNavigationBarHidden = true
-        
-        // Bordas UIView
         let path = UIBezierPath(
             roundedRect: destRemView.bounds,
             byRoundingCorners: [.bottomLeft, .bottomRight],

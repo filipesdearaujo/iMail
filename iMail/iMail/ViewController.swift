@@ -25,6 +25,8 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
         backViewForMenu.isHidden = true
         setupMenuUI()
         tableViewCxEntrada.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        getEmails()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -194,6 +196,17 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
         } catch let error as NSError {
             print("Erro ao remover o nome \(error)")
         }
+    }
+    
+    func getEmails() {
+        let email = EmaiRandomGenerator.shared.fetchEmail()
+        let randomEmail = EmaiRandomGenerator.shared.generateRandomEmailAddress()
+        let randomDate = EmaiRandomGenerator.shared.generateRandomDate()
+        let randomMessage = EmaiRandomGenerator.shared.getRandomMessage()
+        print(randomEmail)
+        print(randomDate)
+        print(randomMessage)
+        print(email!)
     }
 }
 

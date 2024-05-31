@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		90038B0B2C09FF3000D91512 /* EmaiRandomGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90038B0A2C09FF3000D91512 /* EmaiRandomGenerator.swift */; };
 		901568EE2C05F90B006D6453 /* DeliveredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901568ED2C05F90B006D6453 /* DeliveredViewController.swift */; };
 		9015D3962C0779B6008A2FF0 /* EmailDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9015D3952C0779B6008A2FF0 /* EmailDetailsViewController.swift */; };
 		902977C82C04E37900D056F6 /* iMail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 902977C62C04E37900D056F6 /* iMail.xcdatamodeld */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		90038B0A2C09FF3000D91512 /* EmaiRandomGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmaiRandomGenerator.swift; sourceTree = "<group>"; };
 		901568ED2C05F90B006D6453 /* DeliveredViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveredViewController.swift; sourceTree = "<group>"; };
 		9015D3952C0779B6008A2FF0 /* EmailDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailDetailsViewController.swift; sourceTree = "<group>"; };
 		902977C72C04E37900D056F6 /* iMail.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iMail.xcdatamodel; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				90D0BE532C0239330006145E /* SceneDelegate.swift */,
 				90D0BE552C0239330006145E /* ViewController.swift */,
 				90D0BE572C0239330006145E /* Main.storyboard */,
+				90038B0A2C09FF3000D91512 /* EmaiRandomGenerator.swift */,
 				904526032C08AAC100279371 /* LoginViewController.swift */,
 				9015D3952C0779B6008A2FF0 /* EmailDetailsViewController.swift */,
 				9048FC1D2C0763B600F793E1 /* DeliveredTableViewCell.swift */,
@@ -170,6 +173,7 @@
 				9056E4B52C04C8290013B114 /* SendEmailViewController.swift in Sources */,
 				902977C82C04E37900D056F6 /* iMail.xcdatamodeld in Sources */,
 				9048FC1F2C0763B600F793E1 /* DeliveredTableViewCell.swift in Sources */,
+				90038B0B2C09FF3000D91512 /* EmaiRandomGenerator.swift in Sources */,
 				9015D3962C0779B6008A2FF0 /* EmailDetailsViewController.swift in Sources */,
 				904526042C08AAC100279371 /* LoginViewController.swift in Sources */,
 				90D0BE662C023D1C0006145E /* MenuViewController.swift in Sources */,
