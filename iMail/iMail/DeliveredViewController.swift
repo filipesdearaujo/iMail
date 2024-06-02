@@ -19,29 +19,45 @@ class DeliveredViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var tableViewDelivered: UITableView!
     @IBOutlet weak var reloadButton: UIButton!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableViewDelivered.register(DeliveredTableViewCell.nib, forCellReuseIdentifier: DeliveredTableViewCell.cell)
-        //tableViewDelivered.delegate = self
+        tableViewDelivered.dataSource = self
+        tableViewDelivered.delegate = self
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        fetchEmails()
+    }
+    
+    func fetchEmails() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Emails")
+        
+        // Fetch email from "Person" entity
+        let personFetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Person")
         
         do {
-            dados = try managedContext.fetch(fetchRequest)
+            if let person = try managedContext.fetch(personFetchRequest).first,
+               let email = person.value(forKey: "email") as? String {
+                
+                // Fetch emails from "Emails" entity with sender equal to person's email
+                let emailFetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Emails")
+                emailFetchRequest.predicate = NSPredicate(format: "sender == %@", email)
+                
+                dados = try managedContext.fetch(emailFetchRequest)
+                tableViewDelivered.reloadData()
+            }
         } catch let error as NSError {
-            print("Não foi possivel retornar os registros. \(error)")
+            print("Não foi possível retornar os registros. \(error)")
         }
     }
     
     @IBAction func reloadButtonPressed(_ sender: Any) {
-        tableViewDelivered.reloadData()
+        fetchEmails()
     }
 }
 
@@ -71,23 +87,18 @@ extension DeliveredViewController: UITableViewDataSource {
         }
         return cell
     }
-    //ajusta a altura da celula
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 100
-        }
-    //torna as celulas clicáveis
     
+    // Torna as células clicáveis
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Aqui você pode acessar a célula selecionada e realizar as ações desejadas
         let selectedEmail = dados[indexPath.row]
-        print("Email selecionado:", selectedEmail)
         
         // Extrair o índice do objeto NSManagedObject
         guard let index = selectedEmail.value(forKey: "index") as? Int else {
             print("Erro: Não foi possível obter o índice do objeto NSManagedObject.")
             return
         }
-
+        
         // Instanciando EmailDetailsViewController a partir do storyboard
         if let emailDetailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EmailDetailsViewController") as? EmailDetailsViewController {
             // Passando o índice do email para a próxima tela

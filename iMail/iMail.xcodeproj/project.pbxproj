@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		90038B0B2C09FF3000D91512 /* EmaiRandomGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90038B0A2C09FF3000D91512 /* EmaiRandomGenerator.swift */; };
+		90038B192C0B613400D91512 /* CxEntradaTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90038B182C0B613400D91512 /* CxEntradaTableViewCell.xib */; };
+		90038B1A2C0B613400D91512 /* CxEntradaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90038B172C0B613400D91512 /* CxEntradaTableViewCell.swift */; };
 		901568EE2C05F90B006D6453 /* DeliveredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901568ED2C05F90B006D6453 /* DeliveredViewController.swift */; };
 		9015D3962C0779B6008A2FF0 /* EmailDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9015D3952C0779B6008A2FF0 /* EmailDetailsViewController.swift */; };
 		902977C82C04E37900D056F6 /* iMail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 902977C62C04E37900D056F6 /* iMail.xcdatamodeld */; };
@@ -26,12 +28,14 @@
 
 /* Begin PBXFileReference section */
 		90038B0A2C09FF3000D91512 /* EmaiRandomGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmaiRandomGenerator.swift; sourceTree = "<group>"; };
+		90038B172C0B613400D91512 /* CxEntradaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CxEntradaTableViewCell.swift; sourceTree = "<group>"; };
+		90038B182C0B613400D91512 /* CxEntradaTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CxEntradaTableViewCell.xib; sourceTree = "<group>"; };
 		901568ED2C05F90B006D6453 /* DeliveredViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveredViewController.swift; sourceTree = "<group>"; };
 		9015D3952C0779B6008A2FF0 /* EmailDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailDetailsViewController.swift; sourceTree = "<group>"; };
 		902977C72C04E37900D056F6 /* iMail.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iMail.xcdatamodel; sourceTree = "<group>"; };
 		904526032C08AAC100279371 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9048FC1D2C0763B600F793E1 /* DeliveredTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveredTableViewCell.swift; sourceTree = "<group>"; };
-		9048FC212C07673E00F793E1 /* DeliveredTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DeliveredTableViewCell.xib; path = ../../../../.Trash/DeliveredTableViewCell.xib; sourceTree = "<group>"; };
+		9048FC212C07673E00F793E1 /* DeliveredTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeliveredTableViewCell.xib; sourceTree = "<group>"; };
 		9056E4B42C04C8290013B114 /* SendEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendEmailViewController.swift; sourceTree = "<group>"; };
 		90D0BE4E2C0239330006145E /* iMail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90D0BE512C0239330006145E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -55,6 +59,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		90038B162C0B5C5600D91512 /* Celulas */ = {
+			isa = PBXGroup;
+			children = (
+				90038B172C0B613400D91512 /* CxEntradaTableViewCell.swift */,
+				90038B182C0B613400D91512 /* CxEntradaTableViewCell.xib */,
+				9048FC1D2C0763B600F793E1 /* DeliveredTableViewCell.swift */,
+				9048FC212C07673E00F793E1 /* DeliveredTableViewCell.xib */,
+			);
+			path = Celulas;
+			sourceTree = "<group>";
+		};
 		90D0BE452C0239320006145E = {
 			isa = PBXGroup;
 			children = (
@@ -82,14 +97,13 @@
 				90038B0A2C09FF3000D91512 /* EmaiRandomGenerator.swift */,
 				904526032C08AAC100279371 /* LoginViewController.swift */,
 				9015D3952C0779B6008A2FF0 /* EmailDetailsViewController.swift */,
-				9048FC1D2C0763B600F793E1 /* DeliveredTableViewCell.swift */,
 				901568ED2C05F90B006D6453 /* DeliveredViewController.swift */,
 				9056E4B42C04C8290013B114 /* SendEmailViewController.swift */,
 				90D0BE5A2C0239330006145E /* Assets.xcassets */,
 				90D0BE5C2C0239330006145E /* LaunchScreen.storyboard */,
 				90D0BE5F2C0239330006145E /* Info.plist */,
 				902977C62C04E37900D056F6 /* iMail.xcdatamodeld */,
-				9048FC212C07673E00F793E1 /* DeliveredTableViewCell.xib */,
+				90038B162C0B5C5600D91512 /* Celulas */,
 			);
 			path = iMail;
 			sourceTree = "<group>";
@@ -152,6 +166,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90038B192C0B613400D91512 /* CxEntradaTableViewCell.xib in Resources */,
 				90D0BE5B2C0239330006145E /* Assets.xcassets in Resources */,
 				90D0BE5E2C0239330006145E /* Base in Resources */,
 				9048FC222C07673E00F793E1 /* DeliveredTableViewCell.xib in Resources */,
@@ -170,6 +185,7 @@
 				901568EE2C05F90B006D6453 /* DeliveredViewController.swift in Sources */,
 				90D0BE522C0239330006145E /* AppDelegate.swift in Sources */,
 				90D0BE542C0239330006145E /* SceneDelegate.swift in Sources */,
+				90038B1A2C0B613400D91512 /* CxEntradaTableViewCell.swift in Sources */,
 				9056E4B52C04C8290013B114 /* SendEmailViewController.swift in Sources */,
 				902977C82C04E37900D056F6 /* iMail.xcdatamodeld in Sources */,
 				9048FC1F2C0763B600F793E1 /* DeliveredTableViewCell.swift in Sources */,

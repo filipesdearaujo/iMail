@@ -62,6 +62,11 @@ class LoginViewController: UIViewController {
         
         // Chame a função save para salvar os dados no Core Data
         save(name: name, email: email, password: password)
+        //cria emails fakes para simular a caixa de entrada
+        
+        for _ in 1...10 {
+            getEmails()
+        }
     }
     
     func isValidEmail(_ email: String) -> Bool {
@@ -102,4 +107,31 @@ class LoginViewController: UIViewController {
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
+       
+    func getEmails() {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return // Retorna se não conseguir acessar o contexto do CoreData
+            }
+            
+            let context = appDelegate.persistentContainer.viewContext
+            
+            // Cria um novo objeto da entidade "Emails"
+            if let entity = NSEntityDescription.entity(forEntityName: "Emails", in: context) {
+                let newEmail = NSManagedObject(entity: entity, insertInto: context)
+                newEmail.setValue(EmaiRandomGenerator.shared.fetchEmail(), forKey: "to")
+                newEmail.setValue(EmaiRandomGenerator.shared.generateRandomEmailAddress(), forKey: "sender")
+                newEmail.setValue(EmaiRandomGenerator.shared.generateRandomDate(), forKey: "date")
+                newEmail.setValue(EmaiRandomGenerator.shared.getRandomMessage().message, forKey: "message")
+                newEmail.setValue(EmaiRandomGenerator.shared.getRandomMessage().subject, forKey: "subject")
+                newEmail.setValue(EmaiRandomGenerator.shared.fetchIndex(), forKey: "index")
+    
+                do {
+                    // Tenta salvar o novo objeto no CoreData
+                    try context.save()
+                } catch {
+                    print("Failed to save email: \(error)")
+                }
+            }
+        }
+
 }

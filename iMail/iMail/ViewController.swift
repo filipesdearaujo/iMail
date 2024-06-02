@@ -1,18 +1,10 @@
-//
-//  ViewController.swift
-//  iMail
-//
-//  Created by Filipe Simões on 25/05/24.
-//
-
 import UIKit
 import CoreData
 
 class ViewController: UIViewController, MenuViewControllerDelegate {
     
-    var people: [NSManagedObject] = []
+    var dados: [NSManagedObject] = []
     var menuViewController: MenuViewController?
-
     
     @IBOutlet weak var tableViewCxEntrada: UITableView!
     @IBOutlet weak var backViewForMenu: UIView!
@@ -24,29 +16,62 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
         super.viewDidLoad()
         backViewForMenu.isHidden = true
         setupMenuUI()
-        tableViewCxEntrada.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        getEmails()
-        
+        tableViewCxEntrada.register(CxEntradaTableViewCell.nib, forCellReuseIdentifier: CxEntradaTableViewCell.cell)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.hidesBackButton = true
+        loadEmails()
+    }
+
+    func loadEmails() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Person")
+        
+        // Recuperar o email do destinatário atual da entidade "Person" do CoreData
+        let recipientEmail = fetchRecipientEmail()
+        
+        // Verificar se foi possível recuperar o email do destinatário
+        guard let recipientEmail = recipientEmail else {
+            print("Não foi possível recuperar o email do destinatário.")
+            return
+        }
+        
+        // Criar uma fetch request para recuperar os emails filtrados pelo email do destinatário
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emails")
+        fetchRequest.predicate = NSPredicate(format: "sender != %@", recipientEmail)
         
         do {
-            people = try managedContext.fetch(fetchRequest)
+            dados = try managedContext.fetch(fetchRequest) as? [NSManagedObject] ?? []
+            tableViewCxEntrada.reloadData() // Atualizar a tabela com os novos dados
         } catch let error as NSError {
-            print("Não foi possivel retornar os registros. \(error)")
+            print("Não foi possível retornar os registros. \(error)")
         }
     }
-    
+
+    func fetchRecipientEmail() -> String? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return nil
+        }
         
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Person")
+        
+        do {
+            if let person = try managedContext.fetch(fetchRequest).first as? NSManagedObject {
+                return person.value(forKey: "email") as? String
+            }
+        } catch let error as NSError {
+            print("Erro ao buscar o email do destinatário: \(error)")
+        }
+        
+        return nil
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "menuSegue") {
             if let controller = segue.destination as? MenuViewController {
@@ -55,62 +80,11 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
             }
         }
     }
-
     
     @IBAction func addNamePressed(_ sender: UIButton) {
-        
         if let nextVC = storyboard?.instantiateViewController(identifier: "SendEmailViewController") as? SendEmailViewController {
             present(nextVC, animated: true)
         }
-//        let alert = UIAlertController(title: "Nome", message: "Insira o nome", preferredStyle: .alert)
-//        
-//        let saveAction = UIAlertAction(title: "Salvar", style: .default) {
-//            [unowned self] action in
-//            
-//            guard let textField = alert.textFields?.first,
-//                  let nameToSave = textField.text else {
-//                return
-//            }
-//            
-//            save(name: nameToSave)
-//            self.tableViewCxEntrada.reloadData()
-//        }
-//        
-//        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel)
-//        
-//        alert.addTextField()
-//        alert.addAction(saveAction)
-//        alert.addAction(cancelAction)
-//        
-//        present(alert, animated: true)
-    }
-        
-    
-    
-    
-    
-    @IBAction func removeNamePressed(_ sender: Any) {
-        let alert = UIAlertController(title: "Remover Nome", message: "Insira o nome a ser removido", preferredStyle: .alert)
-        
-        let removeAction = UIAlertAction(title: "Remover", style: .destructive) {
-            [unowned self] action in
-            
-            guard let textField = alert.textFields?.first,
-                  let nameToRemove = textField.text else {
-                return
-            }
-            
-            remove(name: nameToRemove)
-            self.tableViewCxEntrada.reloadData()
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel)
-        
-        alert.addTextField()
-        alert.addAction(removeAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true)
     }
     
     @IBAction func tappedOnMenuBackView(_ sender: Any) {
@@ -154,71 +128,33 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
     private func setupMenuUI() {
         sendEmailButton.layer.cornerRadius = 20
         sendEmailButton.clipsToBounds = true
-        //cor do botao do Navigation Controller
         navigationController?.navigationBar.tintColor = UIColor.white
-    }
-    
-    func save(name: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Person", in: managedContext)!
-        
-        let person = NSManagedObject(entity: entity, insertInto: managedContext)
-        person.setValue(name, forKey: "name")
-
-        do {
-            try managedContext.save()
-            people.append(person)
-        } catch let error as NSError {
-            print("Erro ao salvar novo nome \(error)")
-        }
-    }
-    
-    func remove(name: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Person")
-        fetchRequest.predicate = NSPredicate(format: "name == %@", name)
-        
-        do {
-            let fetchedResults = try managedContext.fetch(fetchRequest)
-            for entity in fetchedResults {
-                managedContext.delete(entity)
-            }
-            try managedContext.save()
-            people = try managedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Person"))
-        } catch let error as NSError {
-            print("Erro ao remover o nome \(error)")
-        }
-    }
-    
-    func getEmails() {
-        let email = EmaiRandomGenerator.shared.fetchEmail()
-        let randomEmail = EmaiRandomGenerator.shared.generateRandomEmailAddress()
-        let randomDate = EmaiRandomGenerator.shared.generateRandomDate()
-        let randomMessage = EmaiRandomGenerator.shared.getRandomMessage()
-        print(randomEmail)
-        print(randomDate)
-        print(randomMessage)
-        print(email!)
     }
 }
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return people.count
+        return dados.count
     }
-        
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let person = people[indexPath.row]
-        cell.textLabel?.text = person.value(forKey: "name") as? String
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CxEntradaTableViewCell.cell, for: indexPath) as? CxEntradaTableViewCell else {
+            fatalError("The dequeued cell is not an instance of CxEntradaTableViewCell.")
+        }
+        
+        let email = dados[indexPath.row]
+        
+        if let sender = email.value(forKey: "sender") as? String,
+           let message = email.value(forKey: "message") as? String,
+           let subject = email.value(forKey: "subject") as? String,
+           let date = email.value(forKey: "date") as? Date {
+            cell.remetenteLabel.text = sender
+            cell.subjectLabel.text = subject
+            cell.messageLabel.text = message
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yy"
+            cell.dateLabel.text = dateFormatter.string(from: date)
+        }
         return cell
     }
 }

@@ -6,13 +6,20 @@ class EmaiRandomGenerator {
     
     private init() {}
 
+    func newEmail() {
+        fetchIndex()             //gera o index do email
+        generateRandomEmailAddress()    //gera o endereço de email
+        generateRandomDate()            //gera uma data aleatoria
+        fetchEmail()                    //puxa o dado do destinatario
+        getRandomMessage()              //puxa uma mensagem e o título para o email
+    }
+    
     func generateRandomEmailAddress() -> String {
         let domains = ["example.com", "test.com", "fake.com", "demo.com", "sample.com", "mock.com", "mail.com", "email.com", "webmail.com", "inbox.com", "myemail.com", "yourmail.com", "coolmail.com", "hitechmail.com", "fastmail.com", "securemail.com", "privatemail.com", "protonmail.com", "tutanota.com", "post.com", "netmail.com", "mymail.com", "quickmail.com", "safemail.com", "mailbox.com", "cloudmail.com", "supermail.com", "easymail.com", "onlinemail.com", "webemail.com", "virtualmail.com", "modernmail.com", "directmail.com", "freemail.com", "nowmail.com", "trustedmail.com", "mailsafe.com", "mailsecure.com", "openmail.com", "simplemail.com", "newmail.com", "globalmail.com", "networkmail.com", "instantmail.com", "internetmail.com", "mailservice.com", "usermail.com", "hostmail.com", "domainmail.com"]
         let names = ["Ana", "Bruno", "Carla", "Daniel", "Eduarda", "Felipe", "Gabriela", "Henrique", "Isabela", "João", "Karla", "Lucas", "Mariana", "Nicolas", "Olivia", "Pedro", "Quintino", "Raquel", "Sofia", "Tiago", "Ursula", "Vitor", "Wesley", "Ximena", "Yago", "Zilda", "Amanda", "Brenda", "César", "Diana", "Evandro", "Fernanda", "Gustavo", "Helena", "Igor", "Julia", "Kevin", "Larissa", "Marcelo", "Natália", "Otávio", "Patrícia", "Rafael", "Simone", "Túlio", "Vanessa", "Wagner", "Yasmin", "Zé"]
         
-        let name = names.randomElement()!
-        let domain = domains.randomElement()!
-        return "\(name)@\(domain)"
+        let emailAddress = "\(names.randomElement()!)@\(domains.randomElement()!)"
+        return emailAddress
     }
 
     func generateRandomDate() -> Date {
@@ -48,8 +55,41 @@ class EmaiRandomGenerator {
         // Retorne nil se não houver resultados ou se ocorrer um erro
         return nil
     }
-        
-        func getRandomMessage() -> (String, String) {
+    
+    func fetchIndex() -> Float {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return 0 // Retorna 0 se não conseguir acessar o contexto do CoreData
+            }
+            
+            let context = appDelegate.persistentContainer.viewContext
+            
+            // Fetch Request para buscar o primeiro objeto da entidade "Emails"
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emails")
+            
+            do {
+                let result = try context.fetch(fetchRequest)
+                
+                // Verifica se há objetos retornados
+                if let email = result.first as? NSManagedObject {
+                    // Se o atributo "index" for nulo, retorna 0
+                    if let index = email.value(forKey: "index") as? Float {
+                        // Retorna o valor do index + 1
+                        return index + 1
+                    } else {
+                        // Se o atributo "index" for nulo, retorna 0
+                        return 0
+                    }
+                } else {
+                    // Se não houver objetos na entidade "Emails", retorna 0
+                    return 0
+                }
+            } catch {
+                print("Failed to fetch index: \(error)")
+                return 0
+            }
+        }
+
+    func getRandomMessage() -> (subject: String, message: String) {
             let mensagens: Dictionary<String, String> = [
                "Agradecimento pela Compra": "Prezado cliente, agradecemos por sua recente compra. Seu pedido está sendo processado com o maior cuidado e será enviado em breve. Caso tenha dúvidas ou precise de qualquer assistência, nossa equipe está à disposição para ajudar.",
                "Renovação de Assinatura": "Olá, estamos felizes em informar que sua assinatura foi renovada com sucesso. Agradecemos por continuar utilizando nossos serviços. Se precisar de ajuda ou tiver alguma dúvida, por favor, entre em contato conosco.",
