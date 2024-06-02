@@ -1,10 +1,3 @@
-//
-//  CxEntradaTableViewCell.swift
-//  iMail
-//
-//  Created by Yuri Araujo on 01/06/24.
-//
-
 import UIKit
 
 class CxEntradaTableViewCell: UITableViewCell {
@@ -14,18 +7,21 @@ class CxEntradaTableViewCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        configureCell()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        configureCell()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
-    static var  fileName: String {
+
+    static var fileName: String {
         return String(describing: self)
     }
     
@@ -35,5 +31,10 @@ class CxEntradaTableViewCell: UITableViewCell {
     
     static var cell: String {
         return "Mycell"
+    }
+    
+    private func configureCell() {
+        self.contentView.layer.cornerRadius = 20
+        self.contentView.layer.masksToBounds = true
     }
 }

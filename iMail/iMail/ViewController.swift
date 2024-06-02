@@ -11,6 +11,10 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var leadingConstForMenuView: NSLayoutConstraint!
     @IBOutlet weak var sendEmailButton: UIButton!
+    @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var menubutton: UIButton!
+    @IBOutlet weak var calendarView: UIView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,9 +130,42 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
     }
     
     private func setupMenuUI() {
-        sendEmailButton.layer.cornerRadius = 20
+        sendEmailButton.layer.cornerRadius = 30
         sendEmailButton.clipsToBounds = true
-        navigationController?.navigationBar.tintColor = UIColor.white
+        sendEmailButton.layer.borderWidth = 2
+        sendEmailButton.layer.borderColor = UIColor.red.cgColor
+        sendEmailButton.setTitleColor(.white, for: .normal)
+        
+        configureCalendarView(calendarView)
+        configureSearchTextField()
+    }
+    
+    func configureCalendarView(_ view: UIView) {
+        view.layer.cornerRadius = 20
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.red.cgColor
+        view.layer.masksToBounds = true
+    }
+    
+    private func configureSearchTextField() {
+        searchTextField.placeholder = "Search"
+        searchTextField.textColor = .white
+        searchTextField.backgroundColor = .clear
+        
+        searchTextField.attributedPlaceholder = NSAttributedString(
+            string: "Search",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+        )
+        
+        searchTextField.borderStyle = .none
+        
+        let bottomBorder = CALayer()
+        bottomBorder.frame = CGRect(x: 0, y: searchTextField.frame.size.height - 1, width: searchTextField.frame.size.width, height: 1)
+        bottomBorder.backgroundColor = UIColor.red.cgColor
+        searchTextField.layer.addSublayer(bottomBorder)
+        
+        searchTextField.layoutIfNeeded()
+        bottomBorder.frame = CGRect(x: 0, y: searchTextField.frame.size.height - 1, width: searchTextField.frame.size.width, height: 1)
     }
 }
 

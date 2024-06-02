@@ -42,7 +42,7 @@ class MenuViewController: UIViewController {
             let people = try managedContext.fetch(fetchRequest)
             if let person = people.first {
                 if let name = person.value(forKey: "name") as? String {
-                    profileLabelUser.text = "Olá, \(name)"
+                    profileLabelUser.text = name
                 }
                 if let email = person.value(forKey: "email") as? String {
                     userEmailLabel.text = email
