@@ -1,7 +1,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, MenuViewControllerDelegate {
+class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerDelegate {
     
     var dados: [NSManagedObject] = []
     var menuViewController: MenuViewController?
@@ -19,8 +19,10 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         backViewForMenu.isHidden = true
-        setupMenuUI()
         tableViewCxEntrada.register(CxEntradaTableViewCell.nib, forCellReuseIdentifier: CxEntradaTableViewCell.cell)
+        tableViewCxEntrada.dataSource = self
+        tableViewCxEntrada.delegate = self
+        setupMenuUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -208,5 +210,26 @@ extension ViewController: UITableViewDataSource {
             cell.dateLabel.text = dateFormatter.string(from: date)
         }
         return cell
+    }
+    
+    // Torna as células clicáveis
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Aqui você pode acessar a célula selecionada e realizar as ações desejadas
+        let selectedEmail = dados[indexPath.row]
+        
+        // Extrair o índice do objeto NSManagedObject
+        guard let index = selectedEmail.value(forKey: "index") as? Int else {
+            print("Erro: Não foi possível obter o índice do objeto NSManagedObject.")
+            return
+        }
+        
+        // Instanciando EmailDetailsViewController a partir do storyboard
+        if let recievedemailDetailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RecievedEmailDatailsViewController") as? RecievedEmailDatailsViewController {
+            // Passando o índice do email para a próxima tela
+            recievedemailDetailsVC.index = index
+            
+            // Apresentando o EmailDetailsViewController
+            present(recievedemailDetailsVC, animated: true)
+        }
     }
 }
