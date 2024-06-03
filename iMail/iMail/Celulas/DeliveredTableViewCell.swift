@@ -14,11 +14,17 @@ class DeliveredTableViewCell: UITableViewCell {
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var profileImage: UIImageView!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.frame.size.height = 100
-        // Initialization code
+        configureCell()
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        configureCell()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -36,5 +42,22 @@ class DeliveredTableViewCell: UITableViewCell {
     
     static var cell: String {
         return "cell"
+    }
+    
+    private func configureCell() {
+        self.contentView.layer.cornerRadius = 20
+        self.contentView.layer.masksToBounds = true
+        self.backgroundColor = .clear
+        let path = UIBezierPath(
+            roundedRect: profileImage.bounds,
+            byRoundingCorners: [.bottomRight],
+            cornerRadii: CGSize(width: 20, height: 20)
+        )
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        profileImage.layer.mask = mask
+        
+        profileImage.layer.cornerRadius = 20
+        profileImage.clipsToBounds = true
     }
 }

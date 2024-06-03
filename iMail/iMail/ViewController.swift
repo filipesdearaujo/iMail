@@ -138,6 +138,21 @@ class ViewController: UIViewController, MenuViewControllerDelegate {
         
         configureCalendarView(calendarView)
         configureSearchTextField()
+        
+        //cofigurar o botao de enviar email
+        sendEmailButton.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
+
+        // Definir a imagem de conteúdo
+        let contentImage = UIImage(named: "ImageWriteButton")
+        sendEmailButton.setImage(contentImage, for: .normal)
+
+        // Definir a cor de fundo do botão como branco
+        sendEmailButton.backgroundColor = UIColor.white
+
+        // Ajustar o conteúdo para centralizar a imagem
+        sendEmailButton.contentVerticalAlignment = .center
+        sendEmailButton.contentHorizontalAlignment = .center
+
     }
     
     func configureCalendarView(_ view: UIView) {

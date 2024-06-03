@@ -99,12 +99,12 @@ class LoginViewController: UIViewController {
         
         if let entity = NSEntityDescription.entity(forEntityName: "Emails", in: context) {
             let newEmail = NSManagedObject(entity: entity, insertInto: context)
-            newEmail.setValue(EmaiRandomGenerator.shared.fetchEmail(), forKey: "to")
-            newEmail.setValue(EmaiRandomGenerator.shared.generateRandomEmailAddress(), forKey: "sender")
-            newEmail.setValue(EmaiRandomGenerator.shared.generateRandomDate(), forKey: "date")
-            newEmail.setValue(EmaiRandomGenerator.shared.getRandomMessage().message, forKey: "message")
-            newEmail.setValue(EmaiRandomGenerator.shared.getRandomMessage().subject, forKey: "subject")
-            newEmail.setValue(EmaiRandomGenerator.shared.fetchIndex(), forKey: "index")
+            newEmail.setValue(EmailRandomGenerator.shared.fetchEmail(), forKey: "to")
+            newEmail.setValue(EmailRandomGenerator.shared.generateRandomEmailAddress(), forKey: "sender")
+            newEmail.setValue(EmailRandomGenerator.shared.generateRandomDate(), forKey: "date")
+            newEmail.setValue(EmailRandomGenerator.shared.getRandomMessage().message, forKey: "message")
+            newEmail.setValue(EmailRandomGenerator.shared.getRandomMessage().subject, forKey: "subject")
+            newEmail.setValue(EmailRandomGenerator.shared.fetchIndex(), forKey: "index")
             
             do {
                 try context.save()

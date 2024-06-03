@@ -18,12 +18,14 @@ class DeliveredViewController: UIViewController, UITableViewDelegate {
     
     @IBOutlet weak var tableViewDelivered: UITableView!
     @IBOutlet weak var reloadButton: UIButton!
+    @IBOutlet weak var enviadosSearchTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableViewDelivered.register(DeliveredTableViewCell.nib, forCellReuseIdentifier: DeliveredTableViewCell.cell)
         tableViewDelivered.dataSource = self
         tableViewDelivered.delegate = self
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,6 +60,21 @@ class DeliveredViewController: UIViewController, UITableViewDelegate {
     
     @IBAction func reloadButtonPressed(_ sender: Any) {
         fetchEmails()
+    }
+    func setupUI() {
+        configureTextField(enviadosSearchTextField)
+    }
+    
+    private func configureTextField(_ textField: UITextField) {
+        textField.layer.borderColor = UIColor.red.cgColor
+        textField.layer.borderWidth = 1.0
+        textField.layer.cornerRadius = 10.0
+        textField.backgroundColor = .clear
+        textField.font = UIFont.systemFont(ofSize: 17)
+        textField.layer.masksToBounds = true
+        
+        let placeholderText = textField.placeholder ?? ""
+        textField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
 }
 

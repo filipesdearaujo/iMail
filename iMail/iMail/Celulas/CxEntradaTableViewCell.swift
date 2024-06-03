@@ -1,17 +1,17 @@
 import UIKit
 
 class CxEntradaTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var remetenteLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         configureCell()
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         configureCell()
@@ -19,6 +19,11 @@ class CxEntradaTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
+        // Manter o fundo transparente quando a célula é selecionada
+        let selectedBackgroundView = UIView()
+        selectedBackgroundView.backgroundColor = .clear
+        self.selectedBackgroundView = selectedBackgroundView
     }
 
     static var fileName: String {
@@ -36,5 +41,6 @@ class CxEntradaTableViewCell: UITableViewCell {
     private func configureCell() {
         self.contentView.layer.cornerRadius = 20
         self.contentView.layer.masksToBounds = true
+        self.backgroundColor = .clear
     }
 }

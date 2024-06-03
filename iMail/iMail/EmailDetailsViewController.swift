@@ -9,18 +9,50 @@ class EmailDetailsViewController: UIViewController {
     @IBOutlet weak var senderLabel: UILabel!
     @IBOutlet weak var toLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
-    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var emailMessageView: UIView!
+    @IBOutlet weak var trashButton: UIButton!
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadEmailDetails()
+        setupUI()
     }
 
     @IBAction func removeButtonPressed(_ sender: Any) {
         remove(index:  index)
         dismiss(animated: true)
+    }
+    
+    func setupUI() {
+        configureButton(trashButton, imageName: "trashIcon")
+        trashButton.layer.cornerRadius = 20
+        
+        addTopLine(to: emailMessageView)
+    }
+    
+    func addTopLine(to view: UIView) {
+            let topLine = UIView()
+            topLine.translatesAutoresizingMaskIntoConstraints = false
+        topLine.backgroundColor = .red
+            view.addSubview(topLine)
+
+            NSLayoutConstraint.activate([
+                topLine.topAnchor.constraint(equalTo: view.topAnchor),
+                topLine.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                topLine.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                topLine.heightAnchor.constraint(equalToConstant: 1)
+            ])
+        }
+    
+    private func configureButton(_ button: UIButton, imageName: String) {
+        let contentImage = UIImage(named: imageName)
+        button.setImage(contentImage, for: .normal)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
     }
     
     func remove(index: Int) {
@@ -67,7 +99,7 @@ class EmailDetailsViewController: UIViewController {
                     subjectLabel.text = subject
                 }
                 if let message = email.value(forKey: "message") as? String {
-                    messageLabel.text = message
+                    messageTextView.text = message
                 }
                 
                 // Exibir a data
@@ -75,7 +107,7 @@ class EmailDetailsViewController: UIViewController {
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
                     let dateString = dateFormatter.string(from: date)
-                    dateLabel.text = "Data: \(dateString)"
+                    dateLabel.text = dateString
                 } else {
                     dateLabel.text = "Data: Indisponível"
                 }
