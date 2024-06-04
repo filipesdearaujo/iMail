@@ -15,6 +15,7 @@ class DeliveredTableViewCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var backView: UIView!
     
     
     override func awakeFromNib() {
@@ -45,9 +46,8 @@ class DeliveredTableViewCell: UITableViewCell {
     }
     
     private func configureCell() {
-        self.contentView.layer.cornerRadius = 20
-        self.contentView.layer.masksToBounds = true
-        self.backgroundColor = .clear
+        backView.layer.cornerRadius = 20
+        backView.layer.masksToBounds = true
         let path = UIBezierPath(
             roundedRect: profileImage.bounds,
             byRoundingCorners: [.bottomRight],

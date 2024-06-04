@@ -12,10 +12,13 @@ protocol EmailDetailsViewControllerDelegate: AnyObject {
 class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetailsViewControllerDelegate {
     
     var dados: [NSManagedObject] = []
+    let fetchEmails = FetchEmails()
+    var topic: String?
+    var buttonTitle: String?
     
     @IBOutlet weak var tableViewDelivered: UITableView!
-    @IBOutlet weak var reloadButton: UIButton!
     @IBOutlet weak var enviadosSearchTextField: UITextField!
+    @IBOutlet weak var subectLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,44 +26,29 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
         tableViewDelivered.dataSource = self
         tableViewDelivered.delegate = self
         setupUI()
+        
+        // Configure the subject label with the button title
+        if let buttonTitle = buttonTitle {
+            subectLabel.text = buttonTitle
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchEmails()
-    }
-    
-    func fetchEmails() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        let managedContext = appDelegate.persistentContainer.viewContext
         
-        // Fetch email from "Person" entity
-        let personFetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Person")
-        
-        do {
-            if let person = try managedContext.fetch(personFetchRequest).first,
-               let email = person.value(forKey: "email") as? String {
-                
-                // Fetch emails from "Emails" entity with sender equal to person's email
-                let emailFetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Emails")
-                emailFetchRequest.predicate = NSPredicate(format: "sender == %@", email)
-                
-                dados = try managedContext.fetch(emailFetchRequest)
-                tableViewDelivered.reloadData()
+        guard let topic = topic else { return }
+        fetchEmails.fetch(topic: topic) { [weak self] fetchedDados in
+            guard let self = self else { return }
+            self.dados = fetchedDados
+            DispatchQueue.main.async {
+                self.tableViewDelivered.reloadData()
             }
-        } catch let error as NSError {
-            print("Não foi possível retornar os registros. \(error)")
         }
     }
-    
-    @IBAction func reloadButtonPressed(_ sender: Any) {
-        fetchEmails()
-    }
-    
+
     func setupUI() {
         configureTextField(enviadosSearchTextField)
+        tableViewDelivered.separatorColor = .clear
     }
     
     private func configureTextField(_ textField: UITextField) {
@@ -77,7 +65,14 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
     
     // Implementação do método do delegado
     func didUpdateEmail() {
-        fetchEmails()
+        guard let topic = topic else { return }
+        fetchEmails.fetch(topic: topic) { [weak self] fetchedDados in
+            guard let self = self else { return }
+            self.dados = fetchedDados
+            DispatchQueue.main.async {
+                self.tableViewDelivered.reloadData()
+            }
+        }
     }
 }
 
@@ -87,7 +82,7 @@ extension DeliveredViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableViewDelivered.dequeueReusableCell(withIdentifier: DeliveredTableViewCell.cell, for: indexPath) as? DeliveredTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DeliveredTableViewCell.cell, for: indexPath) as? DeliveredTableViewCell else {
             fatalError("The dequeued cell is not an instance of DeliveredTableViewCell.")
         }
         

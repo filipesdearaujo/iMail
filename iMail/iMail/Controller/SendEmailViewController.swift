@@ -52,6 +52,7 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
         email.setValue(subject, forKey: "subject")
         email.setValue(to, forKey: "to")
         email.setValue(Date(), forKey: "date")
+        email.setValue("usuarioEnviou", forKey: "topic")
         
         let fetchRequest: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Emails")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "index", ascending: false)]
@@ -172,7 +173,17 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
-    
+    // MARK: - Alerts
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    // MARK: - Validation
+    private func isValidEmail(_ email: String) -> Bool {
+        return email.contains("@") && email.contains(".com")
+    }
     // MARK: - UITextViewDelegate Methods
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "Escreva seu Email aqui..." {
@@ -180,24 +191,10 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
             textView.textColor = .black
         }
     }
-    
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "Escreva seu Email aqui..."
             textView.textColor = .lightGray
         }
-    }
-    
-    // MARK: - Validation
-    private func isValidEmail(_ email: String) -> Bool {
-        return email.contains("@") && email.contains(".com")
-    }
-    
-    // MARK: - Alerts
-    private func showAlert(message: String) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
     }
 }

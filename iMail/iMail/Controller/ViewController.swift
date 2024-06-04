@@ -142,6 +142,8 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
         configureSearchTextField()
         configImageButton(Button: sendEmailButton, imageName: "ImageWriteButton", color: .white)
         configImageButton(Button: menubutton, imageName: "menuButtonImage", color: .clear)
+        
+        tableViewCxEntrada.separatorColor = .clear
     }
     func configImageButton(Button: UIButton, imageName: String, color: UIColor) {
         Button.frame = CGRect(x: 0, y: 0, width: 200, height: 100)

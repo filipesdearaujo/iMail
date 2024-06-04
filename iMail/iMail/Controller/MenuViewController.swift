@@ -17,15 +17,6 @@ class MenuViewController: UIViewController {
     }
     
     private func setupMenuUI() {
-        let path = UIBezierPath(
-            roundedRect: profileMenuView.bounds,
-            byRoundingCorners: [.bottomRight],
-            cornerRadii: CGSize(width: 20, height: 20)
-        )
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        profileMenuView.layer.mask = mask
-        
         profilePictureImage.layer.cornerRadius = 20
         profilePictureImage.clipsToBounds = true
     }
@@ -56,15 +47,21 @@ class MenuViewController: UIViewController {
     @IBAction func MenuButtonClicked(_ sender: UIButton) {
         self.delegate?.hidenMenuVIew()
         
-        //dismiss Menu When clicked on this button
-        if sender.tag == 5 {
-            if let nextVC = storyboard?.instantiateViewController(withIdentifier: "DeliveredViewController") as? DeliveredViewController {
-                navigationController?.pushViewController(nextVC, animated: true)
+        if let buttonTitle = sender.titleLabel?.text {
+            if buttonTitle == "Enviados" {
+                if let nextVC = storyboard?.instantiateViewController(withIdentifier: "DeliveredViewController") as? DeliveredViewController {
+                    nextVC.topic = "usuarioEnviou"
+                    nextVC.buttonTitle = buttonTitle
+                    navigationController?.pushViewController(nextVC, animated: true)
+                }
+            } else if buttonTitle == "Favoritos" {
+                if let nextVC = storyboard?.instantiateViewController(withIdentifier: "DeliveredViewController") as? DeliveredViewController {
+                    nextVC.topic = "usuarioSalvou"
+                    nextVC.buttonTitle = buttonTitle
+                    navigationController?.pushViewController(nextVC, animated: true)
+                }
             }
-        } else {
-            if let nextVC = storyboard?.instantiateViewController(withIdentifier: "ExibitionEmailsViewController") as? ExibitionEmailsViewController {
-                navigationController?.pushViewController(nextVC, animated: true)
-            }
+            // mais opções
         }
     }
 }

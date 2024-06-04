@@ -108,6 +108,7 @@ class EmailDetailsViewController: UIViewController {
                     dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
                     let dateString = dateFormatter.string(from: date)
                     dateLabel.text = dateString
+                    print(index)
                 } else {
                     dateLabel.text = "Data: Indisponível"
                 }
