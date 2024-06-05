@@ -9,7 +9,7 @@ protocol EmailDetailsViewControllerDelegate: AnyObject {
     func didUpdateEmail()
 }
 
-class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetailsViewControllerDelegate {
+class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetailsViewControllerDelegate, UITextFieldDelegate {
     
     var dados: [NSManagedObject] = []
     let fetchEmails = FetchEmails()
@@ -26,6 +26,7 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
         tableViewDelivered.register(DeliveredTableViewCell.nib, forCellReuseIdentifier: DeliveredTableViewCell.cell)
         tableViewDelivered.dataSource = self
         tableViewDelivered.delegate = self
+        enviadosSearchTextField.delegate = self // Set the delegate for searchTextField
         setupUI()
         
         // Configure the subject label with the button title
@@ -116,6 +117,38 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
         textField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if let filterText = textField.text {
+            loadEmails(filter: filterText)
+        }
+        return true
+    }
+    
+    private func loadEmails(filter: String? = nil) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        // Criar uma fetch request para recuperar os emails filtrados pelo tópico
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Emails")
+        
+        if let topic = topic {
+            if let filter = filter, !filter.isEmpty {
+                fetchRequest.predicate = NSPredicate(format: "topic == %@ AND (sender CONTAINS[cd] %@ OR message CONTAINS[cd] %@ OR subject CONTAINS[cd] %@)", topic, filter, filter, filter)
+            } else {
+                fetchRequest.predicate = NSPredicate(format: "topic == %@", topic)
+            }
+        }
+        
+        do {
+            dados = try managedContext.fetch(fetchRequest)
+            tableViewDelivered.reloadData()
+        } catch let error as NSError {
+            print("Não foi possível retornar os registros. \(error)")
+        }
+    }
+    
     // Implementação do método do delegado
     func didUpdateEmail() {
         guard let topic = topic else { return }
@@ -178,4 +211,3 @@ extension DeliveredViewController: UITableViewDataSource {
         }
     }
 }
-

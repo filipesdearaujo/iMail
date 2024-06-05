@@ -1,10 +1,6 @@
 //import UIKit
 //import CoreData
 //
-//protocol EmailUpdateDelegate: AnyObject {
-//    func didUpdateEmails()
-//}
-//
 //class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerDelegate, EmailUpdateDelegate {
 //    
 //    var dados: [NSManagedObject] = []
@@ -58,6 +54,7 @@
 //            if let controller = segue.destination as? MenuViewController {
 //                self.menuViewController = controller
 //                self.menuViewController?.delegate = self
+//                self.menuViewController?.emailUpdateDelegate = self  // Definir o delegado
 //            }
 //        }
 //    }
@@ -218,7 +215,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerDelegate, EmailUpdateDelegate {
+class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerDelegate, EmailUpdateDelegate, UITextFieldDelegate {
     
     var dados: [NSManagedObject] = []
     var menuViewController: MenuViewController?
@@ -238,6 +235,7 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
         tableViewCxEntrada.register(CxEntradaTableViewCell.nib, forCellReuseIdentifier: CxEntradaTableViewCell.cell)
         tableViewCxEntrada.dataSource = self
         tableViewCxEntrada.delegate = self
+        searchTextField.delegate = self // Set the delegate for searchTextField
         setupMenuUI()
     }
     
@@ -247,7 +245,7 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
         loadEmails()
     }
 
-    func loadEmails() {
+    func loadEmails(filter: String? = nil) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -256,7 +254,12 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
         
         // Criar uma fetch request para recuperar os emails filtrados pelo tópico "usuarioRecebeu"
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emails")
-        fetchRequest.predicate = NSPredicate(format: "topic == %@", "usuarioRecebeu")
+        
+        if let filter = filter, !filter.isEmpty {
+            fetchRequest.predicate = NSPredicate(format: "topic == %@ AND (sender CONTAINS[cd] %@ OR message CONTAINS[cd] %@ OR subject CONTAINS[cd] %@)", "usuarioRecebeu", filter, filter, filter)
+        } else {
+            fetchRequest.predicate = NSPredicate(format: "topic == %@", "usuarioRecebeu")
+        }
         
         do {
             dados = try managedContext.fetch(fetchRequest) as? [NSManagedObject] ?? []
@@ -264,6 +267,14 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
         } catch let error as NSError {
             print("Não foi possível retornar os registros. \(error)")
         }
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if let filterText = textField.text {
+            loadEmails(filter: filterText)
+        }
+        return true
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -334,6 +345,7 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
         
         tableViewCxEntrada.separatorColor = .clear
     }
+    
     func configImageButton(Button: UIButton, imageName: String, color: UIColor) {
         Button.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
         let contentImage = UIImage(named: imageName)
@@ -346,6 +358,7 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
         Button.contentVerticalAlignment = .center
         Button.contentHorizontalAlignment = .center
     }
+    
     func configureCalendarView(_ view: UIView) {
         view.layer.cornerRadius = 20
         view.layer.borderWidth = 2
@@ -428,3 +441,4 @@ extension ViewController: UITableViewDataSource {
         }
     }
 }
+
