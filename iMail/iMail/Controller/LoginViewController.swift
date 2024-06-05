@@ -93,18 +93,20 @@ class LoginViewController: UIViewController {
         }
     }
     
-    private func getEmails() {
+    private func createEmail() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let context = appDelegate.persistentContainer.viewContext
         
         if let entity = NSEntityDescription.entity(forEntityName: "Emails", in: context) {
             let newEmail = NSManagedObject(entity: entity, insertInto: context)
+            newEmail.setValue(EmailRandomGenerator.shared.fetchIndex(), forKey: "index")
             newEmail.setValue(EmailRandomGenerator.shared.fetchEmail(), forKey: "to")
             newEmail.setValue(EmailRandomGenerator.shared.generateRandomEmailAddress(), forKey: "sender")
             newEmail.setValue(EmailRandomGenerator.shared.generateRandomDate(), forKey: "date")
-            newEmail.setValue(EmailRandomGenerator.shared.getRandomMessage().message, forKey: "message")
-            newEmail.setValue(EmailRandomGenerator.shared.getRandomMessage().subject, forKey: "subject")
-            newEmail.setValue(EmailRandomGenerator.shared.fetchIndex(), forKey: "index")
+            let message = EmailRandomGenerator.shared.getRandomMessage()
+            newEmail.setValue(message.message, forKey: "message")
+            newEmail.setValue(message.subject, forKey: "subject")
+            newEmail.setValue("usuarioRecebeu", forKey: "topic")
             
             do {
                 try context.save()
@@ -148,9 +150,8 @@ class LoginViewController: UIViewController {
         }
         
         save(name: name, email: email, password: password)
-        
         for _ in 1...10 {
-            getEmails()
+            createEmail()
         }
     }
     

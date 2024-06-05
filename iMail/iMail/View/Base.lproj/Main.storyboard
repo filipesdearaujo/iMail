@@ -299,7 +299,7 @@
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ProfilePic" translatesAutoresizingMaskIntoConstraints="NO" id="54r-NW-Vli">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emailImageWhite" translatesAutoresizingMaskIntoConstraints="NO" id="54r-NW-Vli">
                                 <rect key="frame" x="20" y="130" width="26" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="5fh-Hi-cPo"/>
@@ -387,7 +387,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sc7-lu-8gm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3160" y="997"/>
+            <point key="canvasLocation" x="3178" y="996"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -635,10 +635,10 @@
             </objects>
             <point key="canvasLocation" x="973.28244274809151" y="-27.464788732394368"/>
         </scene>
-        <!--Recieved Email Datails View Controller-->
+        <!--Recieved Email Details View Controller-->
         <scene sceneID="3EI-ob-06o">
             <objects>
-                <viewController storyboardIdentifier="RecievedEmailDatailsViewController" id="ssM-28-avM" customClass="RecievedEmailDatailsViewController" customModule="iMail" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RecievedEmailDetailsViewController" id="ssM-28-avM" customClass="RecievedEmailDetailsViewController" customModule="iMail" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5CA-q4-BgX">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -650,14 +650,14 @@
                                     <constraint firstAttribute="height" constant="26" id="S6c-C9-fji"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Assunto" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nW-0M-mTD">
-                                <rect key="frame" x="37.666666666666657" y="228.66666666666666" width="99" height="33.666666666666657"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Assunto" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nW-0M-mTD">
+                                <rect key="frame" x="40" y="228.66666666666666" width="333" height="33.666666666666657"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BzE-ES-9Ud">
-                                <rect key="frame" x="20" y="228.33333333333334" width="12.666666666666664" height="34.000000000000028"/>
+                                <rect key="frame" x="20" y="228.33333333333334" width="15" height="34.000000000000028"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="15" id="6mv-Oh-d7X"/>
                                 </constraints>
@@ -665,7 +665,7 @@
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ProfilePic" translatesAutoresizingMaskIntoConstraints="NO" id="Ioj-ax-6a6">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emailImageWhite" translatesAutoresizingMaskIntoConstraints="NO" id="Ioj-ax-6a6">
                                 <rect key="frame" x="256.33333333333331" y="177.33333333333334" width="26" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="ahR-Qd-PwL"/>
@@ -745,6 +745,9 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain"/>
+                                <connections>
+                                    <action selector="trashButtonTapped:" destination="ssM-28-avM" eventType="touchUpInside" id="Eie-Rd-X5u"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mBg-Hf-CMv">
                                 <rect key="frame" x="266.66666666666669" y="133" width="30" height="35"/>
@@ -898,6 +901,26 @@
                                             <action selector="MenuButtonClicked:" destination="9eG-aG-oIx" eventType="touchUpInside" id="7Bk-mp-esG"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yC7-ht-BXo">
+                                        <rect key="frame" x="0.0" y="392" width="124" height="35"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" systemColor="systemRedColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Sair da conta"/>
+                                        <connections>
+                                            <action selector="logoffButtonTapped:" destination="9eG-aG-oIx" eventType="touchUpInside" id="Kd1-iJ-j25"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ygo-Vy-7Oo">
+                                        <rect key="frame" x="0.0" y="349" width="124" height="35"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" systemColor="systemRedColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Gerar email"/>
+                                        <connections>
+                                            <action selector="generateEmailTapped:" destination="9eG-aG-oIx" eventType="touchUpInside" id="xKg-TF-Kpn"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -905,13 +928,17 @@
                                     <constraint firstAttribute="trailing" secondItem="wYh-AC-IbJ" secondAttribute="trailing" constant="10" id="4Zl-pH-GG4"/>
                                     <constraint firstAttribute="trailing" secondItem="loe-Tc-6rm" secondAttribute="trailing" constant="10" id="5qi-8Z-0XH"/>
                                     <constraint firstAttribute="trailing" secondItem="t1r-2W-q8a" secondAttribute="trailing" constant="10" id="667-hg-h87"/>
+                                    <constraint firstItem="yC7-ht-BXo" firstAttribute="trailing" secondItem="ygo-Vy-7Oo" secondAttribute="trailing" id="8HC-Iu-l9K"/>
                                     <constraint firstAttribute="trailing" secondItem="mom-QZ-PmL" secondAttribute="trailing" constant="10" id="9X6-i6-bqK"/>
                                     <constraint firstAttribute="trailing" secondItem="h6y-VF-kaS" secondAttribute="trailing" constant="10" id="BPK-IB-Kek"/>
                                     <constraint firstItem="mom-QZ-PmL" firstAttribute="leading" secondItem="u5h-Xr-w8v" secondAttribute="leading" id="CIx-92-KGW"/>
+                                    <constraint firstItem="yC7-ht-BXo" firstAttribute="leading" secondItem="ygo-Vy-7Oo" secondAttribute="leading" id="Ce9-VI-30m"/>
+                                    <constraint firstItem="yC7-ht-BXo" firstAttribute="top" secondItem="ygo-Vy-7Oo" secondAttribute="bottom" constant="8" id="FG7-jO-PEw"/>
                                     <constraint firstItem="h6y-VF-kaS" firstAttribute="top" secondItem="cSl-TB-kcl" secondAttribute="bottom" constant="10" id="GZ1-Qk-Jz3"/>
                                     <constraint firstItem="mom-QZ-PmL" firstAttribute="top" secondItem="u5h-Xr-w8v" secondAttribute="top" id="INC-BR-ce5"/>
                                     <constraint firstItem="MBB-LR-GkC" firstAttribute="leading" secondItem="mom-QZ-PmL" secondAttribute="leading" id="LMm-Ra-9op"/>
                                     <constraint firstItem="wYh-AC-IbJ" firstAttribute="leading" secondItem="mom-QZ-PmL" secondAttribute="leading" id="OmP-Gb-cKF"/>
+                                    <constraint firstItem="yC7-ht-BXo" firstAttribute="leading" secondItem="MBB-LR-GkC" secondAttribute="leading" id="QTv-RR-yQi"/>
                                     <constraint firstAttribute="trailing" secondItem="mom-QZ-PmL" secondAttribute="trailing" constant="10" id="QdF-w5-EF1"/>
                                     <constraint firstItem="loe-Tc-6rm" firstAttribute="leading" secondItem="mom-QZ-PmL" secondAttribute="leading" id="UoP-ov-Aub"/>
                                     <constraint firstAttribute="trailing" secondItem="cSl-TB-kcl" secondAttribute="trailing" constant="10" id="WDb-fP-GL5"/>
@@ -923,6 +950,7 @@
                                     <constraint firstItem="cSl-TB-kcl" firstAttribute="top" secondItem="loe-Tc-6rm" secondAttribute="bottom" constant="10" id="iZ6-R6-cxW"/>
                                     <constraint firstItem="wYh-AC-IbJ" firstAttribute="top" secondItem="t1r-2W-q8a" secondAttribute="bottom" constant="10" id="joS-GZ-kUQ"/>
                                     <constraint firstItem="cSl-TB-kcl" firstAttribute="leading" secondItem="mom-QZ-PmL" secondAttribute="leading" id="vna-TN-AgJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="yC7-ht-BXo" secondAttribute="bottom" constant="8" id="x0l-2p-yci"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AWD-js-cV5">
@@ -936,7 +964,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ph4-uE-utJ">
                                 <rect key="frame" x="0.0" y="0.0" width="280" height="280"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ProfilePic" translatesAutoresizingMaskIntoConstraints="NO" id="Jqw-yb-XdV">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emailImageWhite" translatesAutoresizingMaskIntoConstraints="NO" id="Jqw-yb-XdV">
                                         <rect key="frame" x="95" y="55" width="90" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="90" id="7ab-9z-4Ye"/>
@@ -985,6 +1013,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="generateEmailButton" destination="ygo-Vy-7Oo" id="2dD-0p-sJH"/>
+                        <outlet property="logoffButton" destination="yC7-ht-BXo" id="taV-iU-iqj"/>
                         <outlet property="profileLabelUser" destination="TLG-cQ-HU5" id="Kly-Wa-niF"/>
                         <outlet property="profileMenuView" destination="Ph4-uE-utJ" id="wMJ-xL-fSU"/>
                         <outlet property="profilePictureImage" destination="Jqw-yb-XdV" id="o2S-fU-fbL"/>
@@ -993,7 +1023,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uK6-hA-B40" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="885" y="-695"/>
+            <point key="canvasLocation" x="883.96946564885491" y="-695.42253521126759"/>
         </scene>
         <!--Delivered View Controller-->
         <scene sceneID="679-OJ-kO3">
@@ -1018,7 +1048,7 @@
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Pesquisar em Enviados" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MUP-vZ-QfM">
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MUP-vZ-QfM">
                                 <rect key="frame" x="40" y="113" width="313" height="34"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1062,6 +1092,18 @@
                                     <constraint firstItem="6bp-9U-0Pe" firstAttribute="leading" secondItem="7rV-mP-ceC" secondAttribute="leading" constant="20" id="u88-eh-m4E"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WPo-M4-sLq">
+                                <rect key="frame" x="338" y="176.66666666666666" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="3RM-fr-whC"/>
+                                    <constraint firstAttribute="width" constant="35" id="VhA-Tv-Iv2"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title=""/>
+                                <connections>
+                                    <action selector="deleteAllTapped:" destination="mBi-BM-YWT" eventType="touchUpInside" id="vfc-be-2y1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="wcy-3o-aeg"/>
                         <color key="backgroundColor" red="0.14901960780000001" green="0.2156862745" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1072,16 +1114,19 @@
                             <constraint firstItem="c1H-ac-3cl" firstAttribute="top" secondItem="MUP-vZ-QfM" secondAttribute="bottom" constant="30" id="P4T-gu-wg0"/>
                             <constraint firstItem="wcy-3o-aeg" firstAttribute="trailing" secondItem="MUP-vZ-QfM" secondAttribute="trailing" constant="40" id="YyO-OF-XL0"/>
                             <constraint firstAttribute="bottom" secondItem="7rV-mP-ceC" secondAttribute="bottom" id="aeU-sS-WJT"/>
+                            <constraint firstItem="wcy-3o-aeg" firstAttribute="trailing" secondItem="WPo-M4-sLq" secondAttribute="trailing" constant="20" id="dPB-Cp-gPi"/>
                             <constraint firstItem="4E9-da-LfE" firstAttribute="centerY" secondItem="c1H-ac-3cl" secondAttribute="centerY" id="dcN-IQ-DcT"/>
                             <constraint firstItem="MUP-vZ-QfM" firstAttribute="top" secondItem="wcy-3o-aeg" secondAttribute="top" constant="10" id="gfb-15-Y2M"/>
                             <constraint firstItem="wcy-3o-aeg" firstAttribute="trailing" secondItem="4E9-da-LfE" secondAttribute="trailing" constant="5" id="gzd-7c-Q6z"/>
                             <constraint firstItem="MUP-vZ-QfM" firstAttribute="leading" secondItem="wcy-3o-aeg" secondAttribute="leading" constant="40" id="jTN-HA-9Db"/>
                             <constraint firstItem="4E9-da-LfE" firstAttribute="leading" secondItem="c1H-ac-3cl" secondAttribute="trailing" constant="5" id="kkh-KG-mMb"/>
+                            <constraint firstItem="WPo-M4-sLq" firstAttribute="centerY" secondItem="4E9-da-LfE" secondAttribute="centerY" id="tRE-0y-zQR"/>
                             <constraint firstItem="7rV-mP-ceC" firstAttribute="trailing" secondItem="wcy-3o-aeg" secondAttribute="trailing" id="uMV-0w-PXj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yJF-lp-QHO"/>
                     <connections>
+                        <outlet property="deleteAllButton" destination="WPo-M4-sLq" id="zPQ-SZ-8tp"/>
                         <outlet property="enviadosSearchTextField" destination="MUP-vZ-QfM" id="8Vy-Hz-WJx"/>
                         <outlet property="subectLabel" destination="4E9-da-LfE" id="otH-fL-Jje"/>
                         <outlet property="tableViewDelivered" destination="6bp-9U-0Pe" id="q4l-BD-67r"/>
@@ -1089,7 +1134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gRJ-dN-yEG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2195" y="997"/>
+            <point key="canvasLocation" x="2216" y="996"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="v4W-ay-a3e">
@@ -1133,7 +1178,6 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="LogoImail" width="604" height="266"/>
-        <image name="ProfilePic" width="341.33334350585938" height="341.33334350585938"/>
         <image name="emailImageWhite" width="34" height="34"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

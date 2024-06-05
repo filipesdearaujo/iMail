@@ -19,6 +19,7 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
     @IBOutlet weak var tableViewDelivered: UITableView!
     @IBOutlet weak var enviadosSearchTextField: UITextField!
     @IBOutlet weak var subectLabel: UILabel!
+    @IBOutlet weak var deleteAllButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,10 +46,61 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
             }
         }
     }
-
+    
+    @IBAction func deleteAllTapped(_ sender: Any) {
+        let alertController = UIAlertController(title: "Apagar Todos", message: "Você realmente deseja apagar todos os emails? Esta ação não pode ser desfeita.", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "Apagar", style: .destructive) { _ in
+            self.deleteAllEmails()
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func deleteAllEmails() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        // Fetch emails from "Emails" entity with the specified topic
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emails")
+        fetchRequest.predicate = NSPredicate(format: "topic == %@", topic ?? "")
+        
+        do {
+            let emailsToDelete = try managedContext.fetch(fetchRequest) as? [NSManagedObject] ?? []
+            for email in emailsToDelete {
+                managedContext.delete(email)
+            }
+            try managedContext.save()
+            dados.removeAll()
+            tableViewDelivered.reloadData()
+        } catch let error as NSError {
+            print("Não foi possível apagar os registros. \(error)")
+        }
+    }
+    
     func setupUI() {
         configureTextField(enviadosSearchTextField)
         tableViewDelivered.separatorColor = .clear
+        configImageButton(Button: deleteAllButton, imageName: "trashIcon", color: .clear)
+    }
+    
+    func configImageButton(Button: UIButton, imageName: String, color: UIColor) {
+        Button.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
+        let contentImage = UIImage(named: imageName)
+        Button.setImage(contentImage, for: .normal)
+
+        // Definir a cor de fundo do botão como branco
+        Button.backgroundColor = color
+
+        // Ajustar o conteúdo para centralizar a imagem
+        Button.contentVerticalAlignment = .center
+        Button.contentHorizontalAlignment = .center
     }
     
     private func configureTextField(_ textField: UITextField) {
@@ -58,8 +110,9 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
         textField.backgroundColor = .clear
         textField.font = UIFont.systemFont(ofSize: 17)
         textField.layer.masksToBounds = true
+        textField.textColor = .white
         
-        let placeholderText = textField.placeholder ?? ""
+        let placeholderText = textField.placeholder ?? "Pesquisar em \(buttonTitle!)"
         textField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
     
@@ -125,3 +178,4 @@ extension DeliveredViewController: UITableViewDataSource {
         }
     }
 }
+

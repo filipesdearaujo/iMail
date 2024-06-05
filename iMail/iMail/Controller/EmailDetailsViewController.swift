@@ -22,9 +22,7 @@ class EmailDetailsViewController: UIViewController {
     }
 
     @IBAction func removeButtonPressed(_ sender: Any) {
-        remove(index:  index)
-        delegate?.didUpdateEmail()
-        dismiss(animated: true)
+        markAsDeleted(index: index)
     }
     
     func setupUI() {
@@ -55,7 +53,7 @@ class EmailDetailsViewController: UIViewController {
         button.contentHorizontalAlignment = .center
     }
     
-    func remove(index: Int) {
+    func markAsDeleted(index: Int) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -67,12 +65,72 @@ class EmailDetailsViewController: UIViewController {
         do {
             let fetchedResults = try managedContext.fetch(fetchRequest)
             for entity in fetchedResults {
-                managedContext.delete(entity)
+                if let topic = entity.value(forKey: "topic") as? String, topic == "usuarioApagou" {
+                    showDeleteConfirmationAlert(for: entity)
+                } else {
+                    showMarkedAsDeletedAlert(for: entity)
+                }
             }
-            try managedContext.save()
             dados = try managedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Emails"))
         } catch let error as NSError {
-            print("Erro ao remover o email: \(error)")
+            print("Erro ao marcar o email como apagado ou ao remover: \(error)")
+        }
+    }
+    
+    func showDeleteConfirmationAlert(for entity: NSManagedObject) {
+        let alertController = UIAlertController(title: "Apagar Email", message: "Você realmente deseja apagar este email? Isso será permanente.", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "Apagar", style: .destructive) { _ in
+            self.deleteEmail(entity: entity)
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func deleteEmail(entity: NSManagedObject) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        managedContext.delete(entity)
+        
+        do {
+            try managedContext.save()
+            delegate?.didUpdateEmail()
+            dismiss(animated: true)
+        } catch let error as NSError {
+            print("Erro ao apagar o email: \(error)")
+        }
+    }
+    
+    func showMarkedAsDeletedAlert(for entity: NSManagedObject) {
+        let alertController = UIAlertController(title: "Email Marcado como Apagado", message: "O email foi marcado como apagado.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            self.markEmailAsDeleted(entity: entity)
+        }
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func markEmailAsDeleted(entity: NSManagedObject) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        entity.setValue("usuarioApagou", forKey: "topic")
+        
+        do {
+            try managedContext.save()
+            delegate?.didUpdateEmail()
+            dismiss(animated: true)
+        } catch let error as NSError {
+            print("Erro ao marcar o email como apagado: \(error)")
         }
     }
     
