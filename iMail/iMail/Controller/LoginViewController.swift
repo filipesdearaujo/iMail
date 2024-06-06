@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupDismissKeyboardGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +58,16 @@ class LoginViewController: UIViewController {
         button.layer.borderWidth = 3
         button.layer.borderColor = UIColor.red.cgColor
         button.titleLabel?.font = UIFont.systemFont(ofSize: 24)
+    }
+    
+    // MARK: - Gesture Configuration
+    private func setupDismissKeyboardGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     // MARK: - Core Data

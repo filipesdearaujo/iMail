@@ -10,7 +10,7 @@ import UIKit
 class DeliveredTableViewCell: UITableViewCell {
 
     
-    @IBOutlet weak var toLabel: UILabel!
+    @IBOutlet weak var senderLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
@@ -48,16 +48,5 @@ class DeliveredTableViewCell: UITableViewCell {
     private func configureCell() {
         backView.layer.cornerRadius = 20
         backView.layer.masksToBounds = true
-        let path = UIBezierPath(
-            roundedRect: profileImage.bounds,
-            byRoundingCorners: [.bottomRight],
-            cornerRadii: CGSize(width: 20, height: 20)
-        )
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        profileImage.layer.mask = mask
-        
-        profileImage.layer.cornerRadius = 20
-        profileImage.clipsToBounds = true
     }
 }

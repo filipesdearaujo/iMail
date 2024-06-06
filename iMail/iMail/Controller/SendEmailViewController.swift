@@ -6,18 +6,26 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
     var emails: [NSManagedObject] = []
     var senderEmail: String?
     
-
     @IBOutlet weak var sendEmailButton: UIButton!
     @IBOutlet weak var trashButton: UIButton!
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var senderTextField: UITextField!
     @IBOutlet weak var subjectEmailTextField: UITextField!
     @IBOutlet weak var toTextField: UITextField!
+    @IBOutlet weak var messageConstrain: NSLayoutConstraint!
+    @IBOutlet weak var messageView: UIView!
+    
+    var originalMessageViewHeight: CGFloat?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         loadSenderEmail()
+        setupDismissKeyboardGesture()
+        messageTextView.delegate = self // Set delegate to self
+        
+        // Save the original height of messageView
+        originalMessageViewHeight = messageView.frame.height
     }
     
     // MARK: - Core Data Methods
@@ -88,12 +96,12 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
         }
         
         if !isValidEmail(sender) {
-        showAlert(message: "Verificar o email do remetente digitado")
-        return
+            showAlert(message: "Verificar o email do remetente digitado")
+            return
         }
         if !isValidEmail(to) {
-        showAlert(message: "Verificar o email do destinatário digitado")
-        return
+            showAlert(message: "Verificar o email do destinatário digitado")
+            return
         }
         
         save(sender: sender, message: message, subject: subject, to: to)
@@ -173,6 +181,7 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
+    
     // MARK: - Alerts
     private func showAlert(message: String) {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -180,21 +189,54 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
+    
     // MARK: - Validation
     private func isValidEmail(_ email: String) -> Bool {
         return email.contains("@") && email.contains(".com")
     }
+    
     // MARK: - UITextViewDelegate Methods
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "Escreva seu Email aqui..." {
             textView.text = ""
-            textView.textColor = .black
+            textView.textColor = .white // Define o texto para branco ao iniciar a edição
+        }
+        
+        // Expand the messageView to the top of the screen
+        messageConstrain.isActive = false
+        messageView.translatesAutoresizingMaskIntoConstraints = false
+        messageConstrain = messageView.topAnchor.constraint(equalTo: view.topAnchor)
+        messageConstrain.isActive = true
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
         }
     }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "Escreva seu Email aqui..."
             textView.textColor = .lightGray
         }
+        
+        // Restore the original height of the messageView
+        messageConstrain.isActive = false
+        messageView.translatesAutoresizingMaskIntoConstraints = false
+        messageConstrain = messageView.heightAnchor.constraint(equalToConstant: originalMessageViewHeight ?? 200) // Default height
+        messageConstrain.isActive = true
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    // MARK: - Gesture Configuration
+    private func setupDismissKeyboardGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 }

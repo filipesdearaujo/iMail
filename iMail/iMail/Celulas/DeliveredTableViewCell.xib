@@ -96,8 +96,8 @@
                 <outlet property="dateLabel" destination="dcf-OV-vnv" id="G1i-6c-aZd"/>
                 <outlet property="messageLabel" destination="Tj5-jM-cQV" id="TYe-aw-owg"/>
                 <outlet property="profileImage" destination="3Nc-oj-pAx" id="at6-yB-J2k"/>
+                <outlet property="senderLabel" destination="V2z-OO-x2p" id="koq-cf-OlC"/>
                 <outlet property="subjectLabel" destination="Fcf-yh-UWE" id="92G-eS-ud8"/>
-                <outlet property="toLabel" destination="V2z-OO-x2p" id="mNe-nM-GhO"/>
             </connections>
             <point key="canvasLocation" x="100" y="21.126760563380284"/>
         </tableViewCell>

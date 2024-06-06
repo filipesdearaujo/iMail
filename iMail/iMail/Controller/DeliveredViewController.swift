@@ -45,6 +45,7 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
             DispatchQueue.main.async {
                 self.tableViewDelivered.reloadData()
             }
+            print(topic)
         }
     }
     
@@ -175,11 +176,11 @@ extension DeliveredViewController: UITableViewDataSource {
         let email = dados[indexPath.row]
         
         // Configure a célula com os atributos da entidade "Emails"
-        if let to = email.value(forKey: "to") as? String,
+        if let sender = email.value(forKey: "sender") as? String,
            let message = email.value(forKey: "message") as? String,
            let subject = email.value(forKey: "subject") as? String,
            let date = email.value(forKey: "date") as? Date {
-            cell.toLabel.text = to
+            cell.senderLabel.text = sender
             cell.subjectLabel.text = subject
             cell.messageLabel.text = message
             let dateFormatter = DateFormatter()

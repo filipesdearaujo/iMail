@@ -19,7 +19,6 @@ class RecievedEmailDetailsViewController: UIViewController {
     @IBOutlet weak var forwardButton: UIButton!
     @IBOutlet weak var asnwerButton: UIButton!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadEmailDetails()
@@ -28,6 +27,39 @@ class RecievedEmailDetailsViewController: UIViewController {
     
     @IBAction func trashButtonTapped(_ sender: Any) {
         markAsDeleted(index: index)
+    }
+    
+    @IBAction func labelsButtonTapped(_ sender: Any) {
+        performSegue(withIdentifier: "moveToLabels", sender: self)
+    }
+    
+    @IBAction func bookmarkButtonTapped(_ sender: Any) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emails")
+        fetchRequest.predicate = NSPredicate(format: "index == %d", index)
+        
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            if let email = result.first as? NSManagedObject {
+                // Atualiza o atributo "topic" para "usuarioSalvou"
+                email.setValue("usuarioSalvou", forKey: "topic")
+                
+                // Salva o contexto para persistir a mudança
+                try managedContext.save()
+                showAlert(title: "Sucesso", message: "O e-mail foi Salvo.", shouldDismiss: true)
+                // Exibe uma mensagem de sucesso ou atualiza a UI conforme necessário
+                print("Email marcado como salvo.")
+            } else {
+                showAlert(title: "Erro", message: "Não Foi possível salvar o Email.", shouldDismiss: false)
+                print("Erro: Não foi possível encontrar o email com o índice especificado.")
+            }
+        } catch let error as NSError {
+            print("Erro ao atualizar o email: \(error)")
+        }
     }
 
     func markAsDeleted(index: Int) {
@@ -79,7 +111,6 @@ class RecievedEmailDetailsViewController: UIViewController {
         do {
             try managedContext.save()
             delegate?.didUpdateEmails() // Notificar o delegado sobre a atualização
-            dismiss(animated: true)
         } catch let error as NSError {
             print("Erro ao apagar o email: \(error)")
         }
@@ -111,38 +142,13 @@ class RecievedEmailDetailsViewController: UIViewController {
         }
     }
     
-    @IBAction func bookmarkButtonTapped(_ sender: Any) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emails")
-        fetchRequest.predicate = NSPredicate(format: "index == %d", index)
-        
-        do {
-            let result = try managedContext.fetch(fetchRequest)
-            if let email = result.first as? NSManagedObject {
-                // Atualiza o atributo "topic" para "usuarioSalvou"
-                email.setValue("usuarioSalvou", forKey: "topic")
-                
-                // Salva o contexto para persistir a mudança
-                try managedContext.save()
-                showAlert(title: "Sucesso", message: "O e-mail foi Salvo.")
-                // Exibe uma mensagem de sucesso ou atualiza a UI conforme necessário
-                print("Email marcado como salvo.")
-            } else {
-                showAlert(title: "Erro", message: "Não Foi possível salvar o Email.")
-                print("Erro: Não foi possível encontrar o email com o índice especificado.")
-            }
-        } catch let error as NSError {
-            print("Erro ao atualizar o email: \(error)")
-        }
-    }
-    
-    private func showAlert(title: String, message: String) {
+    private func showAlert(title: String, message: String, shouldDismiss: Bool) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            if shouldDismiss {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
@@ -225,6 +231,15 @@ class RecievedEmailDetailsViewController: UIViewController {
             }
         } catch let error as NSError {
             print("Erro ao carregar os detalhes do email: \(error)")
+        }
+    }
+    
+    // Prepare for segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "moveToLabels" {
+            if let destinationVC = segue.destination as? MoveViewController {
+                destinationVC.index = index
+            }
         }
     }
 }

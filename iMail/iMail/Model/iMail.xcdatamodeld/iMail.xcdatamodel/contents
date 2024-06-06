@@ -9,6 +9,9 @@
         <attribute name="to" optional="YES" attributeType="String"/>
         <attribute name="topic" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="Label" representedClassName="Label" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="Person" representedClassName="Person" syncable="YES" codeGenerationType="class">
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
