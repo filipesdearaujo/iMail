@@ -6,6 +6,14 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
     var emails: [NSManagedObject] = []
     var senderEmail: String?
     
+    // Variáveis para armazenar os dados do email original
+    var originalEmailSender: String?
+    var originalEmailTitle: String?
+    var originalEmailMessage: String?
+    
+    // Ação do email (responder ou encaminhar)
+    var emailAction: EmailHandler.EmailAction?
+    
     @IBOutlet weak var sendEmailButton: UIButton!
     @IBOutlet weak var trashButton: UIButton!
     @IBOutlet weak var messageTextView: UITextView!
@@ -26,6 +34,29 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
         
         // Save the original height of messageView
         originalMessageViewHeight = messageView.frame.height
+        
+        // Configurar os campos com os dados do email original
+        if let action = emailAction {
+            switch action {
+            case .answer:
+                if let sender = originalEmailSender {
+                    toTextField.text = sender
+                }
+                if let title = originalEmailTitle {
+                    subjectEmailTextField.text = "Re: \(title)"
+                }
+                if let message = originalEmailMessage {
+                    messageTextView.text = "\n\n--- Mensagem Original ---\n\(message)"
+                }
+            case .forward:
+                if let title = originalEmailTitle {
+                    subjectEmailTextField.text = title.hasPrefix("Fw: ") ? title : "Fw: \(title)"
+                }
+                if let message = originalEmailMessage {
+                    messageTextView.text = "\n\n--- Mensagem Original ---\n\(message)"
+                }
+            }
+        }
     }
     
     // MARK: - Core Data Methods

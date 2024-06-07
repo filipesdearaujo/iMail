@@ -6,6 +6,7 @@ class RecievedEmailDetailsViewController: UIViewController {
     var index: Int = 0
     var dados: [NSManagedObject] = []
     weak var delegate: EmailUpdateDelegate?
+    var emailHandler = EmailHandler()
     
     @IBOutlet weak var trashButton: UIButton!
     @IBOutlet weak var bookmarkButton: UIButton!
@@ -23,6 +24,14 @@ class RecievedEmailDetailsViewController: UIViewController {
         super.viewDidLoad()
         loadEmailDetails()
         setupUI()
+    }
+    
+    @IBAction func answerEmailButtonTapped(_ sender: Any) {
+        emailHandler.handleEmailAction(index: index, action: .answer, viewController: self)
+    }
+    
+    @IBAction func forwardEmailButtonTapped(_ sender: Any) {
+        emailHandler.handleEmailAction(index: index, action: .forward, viewController: self)
     }
     
     @IBAction func trashButtonTapped(_ sender: Any) {
@@ -236,10 +245,26 @@ class RecievedEmailDetailsViewController: UIViewController {
     
     // Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "moveToLabels" {
+        if segue.identifier == "answerForwardEmailSegue" {
+            if let (handler, action) = sender as? (EmailHandler, EmailHandler.EmailAction),
+               let destinationVC = segue.destination as? SendEmailViewController {
+                destinationVC.originalEmailSender = handler.emailSender
+                destinationVC.originalEmailTitle = handler.emailTitle
+                destinationVC.originalEmailMessage = handler.emailMessage
+                
+                // Configurar os campos com base na ação (responder ou encaminhar)
+                switch action {
+                case .answer:
+                    destinationVC.emailAction = .answer
+                case .forward:
+                    destinationVC.emailAction = .forward
+                }
+            }
+        } else if segue.identifier == "moveToLabels" {
             if let destinationVC = segue.destination as? MoveViewController {
                 destinationVC.index = index
             }
         }
     }
 }
+

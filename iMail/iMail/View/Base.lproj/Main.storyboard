@@ -276,7 +276,7 @@
                                     <constraint firstAttribute="width" constant="1" id="yj6-cA-1Fb"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Assunto" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBJ-AP-cDv">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Assunto" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBJ-AP-cDv">
                                 <rect key="frame" x="40" y="224.66666666666666" width="333" height="33.666666666666657"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -665,8 +665,8 @@
                                     <constraint firstAttribute="height" constant="26" id="S6c-C9-fji"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Assunto" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nW-0M-mTD">
-                                <rect key="frame" x="40" y="226.33333333333334" width="99" height="33.666666666666657"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Assunto" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nW-0M-mTD">
+                                <rect key="frame" x="40" y="226" width="333" height="34"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -729,7 +729,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title=" Encaminhar"/>
                                 <connections>
-                                    <action selector="removeButtonPressed:" destination="A2G-5s-Jkq" eventType="touchUpInside" id="rga-FN-mVO"/>
+                                    <action selector="forwardEmailButtonTapped:" destination="ssM-28-avM" eventType="touchUpInside" id="Jtx-1M-z9A"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lsJ-mT-Lrf">
@@ -743,7 +743,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title=" Responder"/>
                                 <connections>
-                                    <action selector="removeButtonPressed:" destination="A2G-5s-Jkq" eventType="touchUpInside" id="hzM-Fj-Frq"/>
+                                    <action selector="answerEmailButtonTapped:" destination="ssM-28-avM" eventType="touchUpInside" id="TaR-lr-9Fl"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DiN-vf-x8e">
@@ -791,6 +791,7 @@
                         <viewLayoutGuide key="safeArea" id="WWP-Ma-wd9"/>
                         <color key="backgroundColor" red="0.14901960780000001" green="0.2156862745" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="9nW-0M-mTD" firstAttribute="top" secondItem="Ioj-ax-6a6" secondAttribute="bottom" constant="8" id="4MW-ND-h4r"/>
                             <constraint firstItem="CmF-LB-1Ig" firstAttribute="leading" secondItem="WWP-Ma-wd9" secondAttribute="leading" id="4yD-6l-L44"/>
                             <constraint firstItem="wVy-8I-sxb" firstAttribute="centerY" secondItem="Ioj-ax-6a6" secondAttribute="centerY" id="B2Z-z4-E6f"/>
                             <constraint firstItem="Nqs-MM-maV" firstAttribute="top" secondItem="DiN-vf-x8e" secondAttribute="top" constant="35" id="B8f-rZ-hrW"/>
@@ -805,6 +806,7 @@
                             <constraint firstItem="fRd-9B-PFb" firstAttribute="centerY" secondItem="lsJ-mT-Lrf" secondAttribute="centerY" id="TXY-gv-tfv"/>
                             <constraint firstItem="Ioj-ax-6a6" firstAttribute="leading" secondItem="Nqs-MM-maV" secondAttribute="leading" id="WXa-ud-T1i"/>
                             <constraint firstAttribute="bottom" secondItem="CmF-LB-1Ig" secondAttribute="bottom" id="XHe-NZ-X6j"/>
+                            <constraint firstItem="WWP-Ma-wd9" firstAttribute="trailing" secondItem="9nW-0M-mTD" secondAttribute="trailing" constant="20" id="XLu-Xt-eWt"/>
                             <constraint firstItem="WWP-Ma-wd9" firstAttribute="trailing" secondItem="DiN-vf-x8e" secondAttribute="trailing" constant="20" id="YoI-qi-UmJ"/>
                             <constraint firstItem="DiN-vf-x8e" firstAttribute="leading" secondItem="mBg-Hf-CMv" secondAttribute="trailing" constant="8" id="Yzl-GX-mKY"/>
                             <constraint firstItem="mBg-Hf-CMv" firstAttribute="leading" secondItem="qWy-GY-KdO" secondAttribute="trailing" constant="8" id="dvI-ZT-i7g"/>
@@ -836,11 +838,12 @@
                         <outlet property="toLabel" destination="wVy-8I-sxb" id="XJo-ZO-Fuw"/>
                         <outlet property="trashButton" destination="DiN-vf-x8e" id="EE7-IF-9IP"/>
                         <segue destination="kCs-j1-tMg" kind="show" identifier="moveToLabels" id="kgR-P4-eXU"/>
+                        <segue destination="RzE-iF-Odw" kind="show" identifier="answerForwardEmailSegue" id="HqE-bW-YXS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8VR-h9-C2Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2216.030534351145" y="-417.6056338028169"/>
+            <point key="canvasLocation" x="2033" y="-418"/>
         </scene>
         <!--Move View Controller-->
         <scene sceneID="HO9-Mz-XEq">
@@ -1319,6 +1322,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="7NU-Ot-ASe"/>
         <segue reference="w4R-do-wKL"/>
+        <segue reference="HqE-bW-YXS"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="LogoImail" width="604" height="266"/>
