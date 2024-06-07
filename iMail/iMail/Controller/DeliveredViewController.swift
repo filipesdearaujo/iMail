@@ -50,24 +50,56 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
     }
     
     @IBAction func deleteAllTapped(_ sender: Any) {
-        let alertController = UIAlertController(title: "Apagar Todos", message: "Você realmente deseja apagar todos os emails? Esta ação não pode ser desfeita.", preferredStyle: .alert)
+        guard let topic = topic else { return }
         
-        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
-        let deleteAction = UIAlertAction(title: "Apagar", style: .destructive) { _ in
-            self.deleteAllEmails()
+        if topic != "usuarioApagou" && topic != "usuarioSpam" && topic != "usuarioEnviou" {
+            let alertController = UIAlertController(title: "Apagar Todos", message: "Você realmente deseja apagar todos os emails? Esta ação não pode ser desfeita. Isso também apagará a etiqueta \(buttonTitle ?? "") e os emails associados.", preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+            let deleteAction = UIAlertAction(title: "Apagar", style: .destructive) { _ in
+                self.deleteAllEmails(includingLabel: true)
+            }
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(deleteAction)
+            
+            present(alertController, animated: true, completion: nil)
+        } else {
+            let alertController = UIAlertController(title: "Apagar Todos", message: "Você realmente deseja apagar todos os emails? Esta ação não pode ser desfeita.", preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+            let deleteAction = UIAlertAction(title: "Apagar", style: .destructive) { _ in
+                self.deleteAllEmails(includingLabel: false)
+            }
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(deleteAction)
+            
+            present(alertController, animated: true, completion: nil)
         }
-        
-        alertController.addAction(cancelAction)
-        alertController.addAction(deleteAction)
-        
-        present(alertController, animated: true, completion: nil)
     }
     
-    private func deleteAllEmails() {
+    private func deleteAllEmails(includingLabel: Bool) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         let managedContext = appDelegate.persistentContainer.viewContext
+        
+        if includingLabel {
+            // Fetch the label to delete
+            let fetchLabelRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Label")
+            fetchLabelRequest.predicate = NSPredicate(format: "name == %@", buttonTitle ?? "")
+            
+            do {
+                if let labelsToDelete = try managedContext.fetch(fetchLabelRequest) as? [NSManagedObject] {
+                    for label in labelsToDelete {
+                        managedContext.delete(label)
+                    }
+                }
+            } catch let error as NSError {
+                print("Não foi possível apagar a etiqueta. \(error)")
+            }
+        }
         
         // Fetch emails from "Emails" entity with the specified topic
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emails")
@@ -81,6 +113,7 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
             try managedContext.save()
             dados.removeAll()
             tableViewDelivered.reloadData()
+            self.navigationController?.popViewController(animated: true) // Voltar para a tela anterior
         } catch let error as NSError {
             print("Não foi possível apagar os registros. \(error)")
         }
@@ -208,7 +241,7 @@ extension DeliveredViewController: UITableViewDataSource {
             emailDetailsVC.delegate = self // Define o delegado
             
             // Apresentando o EmailDetailsViewController
-            present(emailDetailsVC, animated: true)
+            navigationController?.pushViewController(emailDetailsVC, animated: true)
         }
     }
 }
