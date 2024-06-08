@@ -1,5 +1,6 @@
 import UIKit
 import CoreData
+import EventKit
 
 class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerDelegate, EmailUpdateDelegate, UITextFieldDelegate {
 
@@ -7,6 +8,9 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
     var menuViewController: MenuViewController?
     var originalCxEntradaConstraint: NSLayoutConstraint?
 
+    let eventStore = EKEventStore()
+    var nextEvent: EKEvent?
+    
     @IBOutlet weak var tableViewCxEntrada: UITableView!
     @IBOutlet weak var backViewForMenu: UIView!
     @IBOutlet weak var menuView: UIView!
@@ -19,6 +23,11 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
     @IBOutlet weak var cxEntradaConstrain: NSLayoutConstraint!
     @IBOutlet weak var midView: UIView!
     
+    //Iboutlet Calendario
+    @IBOutlet weak var subjectEventLabel: UILabel!
+    @IBOutlet weak var hourEventLabel: UILabel!
+    @IBOutlet weak var dateEventLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         backViewForMenu.isHidden = true
@@ -29,12 +38,18 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
         setupMenuUI()
         setupBackgroundTapGesture()
         originalCxEntradaConstraint = cxEntradaConstrain
+        requestAccessToCalendar()
+        
+        let calendarTapGesture = UITapGestureRecognizer(target: self, action: #selector(calendarViewTapped))
+        calendarView.addGestureRecognizer(calendarTapGesture)
+        calendarView.isUserInteractionEnabled = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.hidesBackButton = true
         loadEmails()
+        fetchNextEvent() // Atualizar os labels de evento toda vez que a tela aparecer
     }
 
     func loadEmails(filter: String? = nil) {
@@ -221,6 +236,72 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
 
             UIView.animate(withDuration: 0.3) {
                 self.view.layoutIfNeeded()
+            }
+        }
+    }
+
+    func requestAccessToCalendar() {
+        eventStore.requestFullAccessToEvents { granted, error in
+            if granted {
+                DispatchQueue.main.async {
+                    self.fetchNextEvent()
+                }
+            } else {
+                if let error = error {
+                    print("Erro ao solicitar permissão: \(error)")
+                } else {
+                    print("Permissão negada para acessar o calendário")
+                }
+            }
+        }
+    }
+
+    func fetchNextEvent() {
+        let calendars = eventStore.calendars(for: .event)
+        
+        let now = Date()
+        let oneYearFromNow = Date(timeIntervalSinceNow: 365*24*3600)
+        
+        let predicate = eventStore.predicateForEvents(withStart: now, end: oneYearFromNow, calendars: calendars)
+        
+        let events = eventStore.events(matching: predicate).sorted(by: { $0.startDate < $1.startDate })
+        
+        if let nextEvent = events.first {
+            self.nextEvent = nextEvent
+            subjectEventLabel.text = nextEvent.title
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "HH:mm"
+            
+            if nextEvent.isAllDay {
+                hourEventLabel.text = ""
+            } else {
+                hourEventLabel.text = dateFormatter.string(from: nextEvent.startDate)
+            }
+            
+            let dateOnlyFormatter = DateFormatter()
+            dateOnlyFormatter.dateFormat = "dd/MM/yyyy"
+            
+            if Calendar.current.isDateInToday(nextEvent.startDate) {
+                dateEventLabel.text = "Hoje"
+            } else {
+                dateEventLabel.text = dateOnlyFormatter.string(from: nextEvent.startDate)
+            }
+        } else {
+            subjectEventLabel.text = "Nenhum evento"
+            hourEventLabel.text = ""
+            dateEventLabel.text = ""
+        }
+    }
+
+    @objc func calendarViewTapped() {
+        guard let nextEvent = nextEvent else { return }
+
+        if let eventURL = URL(string: "calshow://")?.appendingPathComponent(nextEvent.eventIdentifier) {
+            if UIApplication.shared.canOpenURL(eventURL) {
+                UIApplication.shared.open(eventURL)
+            } else {
+                print("Não foi possível abrir o aplicativo Calendário.")
             }
         }
     }
