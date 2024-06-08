@@ -30,6 +30,7 @@ class EmailDetailsViewController: UIViewController {
         trashButton.layer.cornerRadius = 20
         
         addTopLine(to: emailMessageView)
+        messageTextView.isEditable = false
     }
     
     func addTopLine(to view: UIView) {

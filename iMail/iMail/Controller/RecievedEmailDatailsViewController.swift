@@ -170,6 +170,7 @@ class RecievedEmailDetailsViewController: UIViewController {
         asnwerButton.layer.cornerRadius = 20
         forwardButton.layer.cornerRadius = 20
         addTopLine(to: messageView)
+        messageTextView.isEditable = false
     }
     
     func configImageButton(Button: UIButton, imageName: String, color: UIColor) {
