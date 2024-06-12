@@ -1,15 +1,21 @@
 import UIKit
 import CoreData
 
+// Protocolo para atualizar emails
 protocol EmailUpdateDelegate: AnyObject {
     func didUpdateEmails()
 }
 
+// Classe responsável pelo menu
 class MenuViewController: UIViewController {
 
+    // MARK: - Properties
+    
     var delegate: MenuViewControllerDelegate?
     weak var emailUpdateDelegate: EmailUpdateDelegate?
     var labels: [Label] = [] // Armazena os objetos Label
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var profileMenuView: UIView!
     @IBOutlet weak var profilePictureImage: UIImageView!
@@ -19,6 +25,8 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var generateEmailButton: UIButton!
     @IBOutlet weak var LabelsButton: UIButton!
 
+    // MARK: - Lifecycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMenuUI()
@@ -31,6 +39,8 @@ class MenuViewController: UIViewController {
         fetchLabels()
         updateLabelsMenu()
     }
+
+    // MARK: - Setup Methods
 
     private func setupMenuUI() {
         profilePictureImage.layer.cornerRadius = 20
@@ -52,12 +62,8 @@ class MenuViewController: UIViewController {
         do {
             let people = try managedContext.fetch(fetchRequest)
             if let person = people.first {
-                if let name = person.value(forKey: "name") as? String {
-                    profileLabelUser.text = name
-                }
-                if let email = person.value(forKey: "email") as? String {
-                    userEmailLabel.text = email
-                }
+                profileLabelUser.text = person.value(forKey: "name") as? String
+                userEmailLabel.text = person.value(forKey: "email") as? String
             }
         } catch let error as NSError {
             print("Erro ao carregar informações do usuário: \(error)")
@@ -79,10 +85,53 @@ class MenuViewController: UIViewController {
         }
     }
 
+    // MARK: - Action Methods
+
     @IBAction func labelsButtonTapped(_ sender: Any) {
         updateLabelsMenu()
         LabelsButton.showsMenuAsPrimaryAction = true
     }
+
+    @IBAction func MenuButtonClicked(_ sender: UIButton) {
+        self.delegate?.hidenMenuVIew()
+        
+        guard let buttonTitle = sender.titleLabel?.text else { return }
+
+        switch buttonTitle {
+        case "Enviados":
+            navigateToDeliveredViewController(with: "usuarioEnviou", buttonTitle: buttonTitle)
+        case "Favoritos":
+            navigateToDeliveredViewController(with: "usuarioSalvou", buttonTitle: buttonTitle)
+        case "Lixeira":
+            navigateToDeliveredViewController(with: "usuarioApagou", buttonTitle: buttonTitle)
+        case "Spam":
+            navigateToDeliveredViewController(with: "usuarioSpam", buttonTitle: buttonTitle)
+        default:
+            break
+        }
+    }
+    
+    @IBAction func logoffButtonTapped(_ sender: Any) {
+        let alertController = UIAlertController(title: "Sair", message: "Você realmente deseja sair? Isso apagará todos os emails e dados salvos.", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+        let logoutAction = UIAlertAction(title: "Sair", style: .destructive) { _ in
+            self.deleteAllData()
+            self.navigateToLoginScreen()
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(logoutAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func generateEmailTapped(_ sender: Any) {
+        createEmail()
+        emailUpdateDelegate?.didUpdateEmails()  // Notificar o delegate que os emails foram atualizados
+    }
+
+    // MARK: - Helper Methods
 
     private func createLabelsMenu() -> UIMenu {
         var actions = [UIAction]()
@@ -120,46 +169,6 @@ class MenuViewController: UIViewController {
         } catch let error as NSError {
             print("Error saving label: \(error)")
         }
-    }
-    
-    @IBAction func MenuButtonClicked(_ sender: UIButton) {
-        self.delegate?.hidenMenuVIew()
-        
-        if let buttonTitle = sender.titleLabel?.text {
-            if buttonTitle == "Enviados" {
-                navigateToDeliveredViewController(with: "usuarioEnviou", buttonTitle: buttonTitle)
-            } else if buttonTitle == "Favoritos" {
-                navigateToDeliveredViewController(with: "usuarioSalvou", buttonTitle: buttonTitle)
-            } else if buttonTitle == "Lixeira" {
-                navigateToDeliveredViewController(with: "usuarioApagou", buttonTitle: buttonTitle)
-            } else if buttonTitle == "Spam" {
-                navigateToDeliveredViewController(with: "usuarioSpam", buttonTitle: buttonTitle)
-            }
-            // mais opções
-        }
-    }
-    
-    private func navigateToDeliveredViewController(with topic: String, buttonTitle: String? = nil) {
-        if let nextVC = storyboard?.instantiateViewController(withIdentifier: "DeliveredViewController") as? DeliveredViewController {
-            nextVC.topic = topic
-            nextVC.buttonTitle = buttonTitle
-            navigationController?.pushViewController(nextVC, animated: true)
-        }
-    }
-    
-    @IBAction func logoffButtonTapped(_ sender: Any) {
-        let alertController = UIAlertController(title: "Sair", message: "Você realmente deseja sair? Isso apagará todos os emails e dados salvos.", preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
-        let logoutAction = UIAlertAction(title: "Sair", style: .destructive) { _ in
-            self.deleteAllData()
-            self.navigateToLoginScreen()
-        }
-        
-        alertController.addAction(cancelAction)
-        alertController.addAction(logoutAction)
-        
-        present(alertController, animated: true, completion: nil)
     }
     
     private func deleteAllData() {
@@ -206,14 +215,17 @@ class MenuViewController: UIViewController {
         }
     }
     
+    private func navigateToDeliveredViewController(with topic: String, buttonTitle: String? = nil) {
+        if let nextVC = storyboard?.instantiateViewController(withIdentifier: "DeliveredViewController") as? DeliveredViewController {
+            nextVC.topic = topic
+            nextVC.buttonTitle = buttonTitle
+            navigationController?.pushViewController(nextVC, animated: true)
+        }
+    }
+
     private func navigateToLoginScreen() {
         if let loginViewController = storyboard?.instantiateViewController(withIdentifier: "LoginViewController") {
             navigationController?.setViewControllers([loginViewController], animated: true)
         }
-    }
-    
-    @IBAction func generateEmailTapped(_ sender: Any) {
-        createEmail()
-        emailUpdateDelegate?.didUpdateEmails()  // Notificar o delegate que os emails foram atualizados
     }
 }

@@ -6,51 +6,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    // MARK: - Core Data stack
+    
+    // Container persistente para gerenciar o armazenamento de dados do Core Data
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "iMail") // Substitua "iMail" pelo nome do seu modelo CoreData
+        let container = NSPersistentContainer(name: "iMail") // Substitua "iMail" pelo nome do seu modelo Core Data
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                fatalError("Erro não resolvido \(error), \(error.userInfo)")
             }
         })
         return container
     }()
 
-    func saveContext () {
+    // Método para salvar o contexto do Core Data
+    func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
                 try context.save()
             } catch {
                 let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                fatalError("Erro não resolvido \(nserror), \(nserror.userInfo)")
             }
         }
     }
 
+    // MARK: - Application Lifecycle
+    
+    // Personaliza a aparência global da aplicação após o lançamento
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Personalizar a aparência do botão "Voltar" em toda a aplicação
+        customizeAppearance()
+        return true
+    }
+    
+    // MARK: - Customization Methods
+    
+    // Personaliza a aparência da barra de navegação e do botão "Voltar"
+    private func customizeAppearance() {
         let appearance = UINavigationBar.appearance()
         appearance.tintColor = .white // Cor do botão "Voltar"
         appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white] // Cor do texto do título
-        
-        // Se você quiser também customizar a cor de fundo da barra de navegação
-        appearance.barTintColor = .black
-        
-        return true
+        appearance.barTintColor = .black // Cor de fundo da barra de navegação
     }
 
-    // MARK: UISceneSession Lifecycle
+    // MARK: - UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
+        // Chamado quando uma nova sessão de cena está sendo criada.
+        // Use este método para selecionar uma configuração para criar a nova cena.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+        // Chamado quando o usuário descarta uma sessão de cena.
+        // Libere recursos específicos das cenas descartadas, pois elas não retornarão.
     }
 }

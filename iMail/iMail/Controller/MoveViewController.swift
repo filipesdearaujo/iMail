@@ -206,9 +206,13 @@ import CoreData
 
 class MoveViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    // MARK: - Properties
+    
     var index: Int!
-    var labels: [Label] = [] // Armazena os objetos Label
+    var labels: [Label] = []
     weak var delegate: EmailUpdateDelegate?
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var cxEntradaButton: UIButton!
     @IBOutlet weak var spamButton: UIButton!
@@ -217,16 +221,40 @@ class MoveViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var labelsView: UIView!
     @IBOutlet weak var labelsTableView: UITableView!
     
+    // MARK: - Lifecycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        labelsTableView.register(LabelTableViewCell.nib, forCellReuseIdentifier: LabelTableViewCell.cellIdentifier)
-        labelsTableView.dataSource = self
-        labelsTableView.delegate = self
         setupUI()
         fetchLabels()
     }
     
-    func fetchLabels() {
+    // MARK: - Setup Methods
+    
+    private func setupUI() {
+        labelsTableView.register(LabelTableViewCell.nib, forCellReuseIdentifier: LabelTableViewCell.cellIdentifier)
+        labelsTableView.dataSource = self
+        labelsTableView.delegate = self
+        addTopLine(to: labelsView)
+    }
+    
+    private func addTopLine(to view: UIView) {
+        let topLine = UIView()
+        topLine.translatesAutoresizingMaskIntoConstraints = false
+        topLine.backgroundColor = .red
+        view.addSubview(topLine)
+        
+        NSLayoutConstraint.activate([
+            topLine.topAnchor.constraint(equalTo: view.topAnchor),
+            topLine.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            topLine.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            topLine.heightAnchor.constraint(equalToConstant: 1)
+        ])
+    }
+    
+    // MARK: - Core Data Methods
+    
+    private func fetchLabels() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -241,6 +269,55 @@ class MoveViewController: UIViewController, UITableViewDelegate, UITableViewData
             print("Erro ao buscar labels: \(error)")
         }
     }
+    
+    private func saveLabel(name: String) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Label", in: managedContext)!
+        let label = NSManagedObject(entity: entity, insertInto: managedContext) as! Label
+        
+        label.name = name
+        
+        do {
+            try managedContext.save()
+            labels.append(label)
+            labelsTableView.reloadData()
+            print("Label saved: \(label.name ?? "")")
+        } catch let error as NSError {
+            print("Error saving label: \(error)")
+        }
+    }
+    
+    private func updateEmailTopic(with topic: String) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Emails")
+        fetchRequest.predicate = NSPredicate(format: "index == %d", index)
+        
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            if let email = result.first {
+                email.setValue("usuario\(topic)", forKey: "topic")
+                
+                try managedContext.save()
+                showAlert(title: "Sucesso", message: "O e-mail foi movido para \(topic).", shouldDismiss: true)
+                print("Email marcado como \(topic).")
+            } else {
+                showAlert(title: "Erro", message: "Não foi possível mover o email.", shouldDismiss: false)
+                print("Erro: Não foi possível encontrar o email com o índice especificado.")
+            }
+        } catch let error as NSError {
+            print("Erro ao atualizar o email: \(error)")
+        }
+    }
+    
+    // MARK: - Action Methods
     
     @IBAction func addLabelButtonTapped(_ sender: Any) {
         let alertController = UIAlertController(title: "Criar novo Marcador", message: nil, preferredStyle: .alert)
@@ -262,27 +339,6 @@ class MoveViewController: UIViewController, UITableViewDelegate, UITableViewData
         present(alertController, animated: true, completion: nil)
     }
     
-    func saveLabel(name: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Label", in: managedContext)!
-        let label = NSManagedObject(entity: entity, insertInto: managedContext) as! Label
-        
-        label.name = name
-        
-        do {
-            try managedContext.save()
-            labels.append(label)
-            labelsTableView.reloadData()
-            print("Label saved: \(label.name ?? "")")
-        } catch let error as NSError {
-            print("Error saving label: \(error)")
-        }
-    }
-    
     @IBAction func favoritosButtonTapped(_ sender: Any) {
         updateEmailTopic(with: "usuarioSalvou")
     }
@@ -295,51 +351,7 @@ class MoveViewController: UIViewController, UITableViewDelegate, UITableViewData
         updateEmailTopic(with: "usuarioLixeira")
     }
     
-    func updateEmailTopic(with topic: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Emails")
-        fetchRequest.predicate = NSPredicate(format: "index == %d", index)
-        
-        do {
-            let result = try managedContext.fetch(fetchRequest)
-            if let email = result.first as? NSManagedObject {
-                email.setValue("usuario\(topic)", forKey: "topic")
-                
-                try managedContext.save()
-                showAlert(title: "Sucesso", message: "O e-mail foi movido para \(topic).", shouldDismiss: true)
-                print("Email marcado como \(topic).")
-            } else {
-                showAlert(title: "Erro", message: "Não foi possível mover o email.", shouldDismiss: false)
-                print("Erro: Não foi possível encontrar o email com o índice especificado.")
-            }
-        } catch let error as NSError {
-            print("Erro ao atualizar o email: \(error)")
-        }
-    }
-    
-    func setupUI() {
-        addTopLine(to: labelsView)
-    }
-    
-    func addTopLine(to view: UIView) {
-        let topLine = UIView()
-        topLine.translatesAutoresizingMaskIntoConstraints = false
-        topLine.backgroundColor = .red
-        view.addSubview(topLine)
-        
-        NSLayoutConstraint.activate([
-            topLine.topAnchor.constraint(equalTo: view.topAnchor),
-            topLine.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            topLine.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            topLine.heightAnchor.constraint(equalToConstant: 1)
-        ])
-    }
-    
-    func showAlert(title: String, message: String, shouldDismiss: Bool) {
+    private func showAlert(title: String, message: String, shouldDismiss: Bool) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             if shouldDismiss {
@@ -351,6 +363,7 @@ class MoveViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: - UITableViewDataSource Methods
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return labels.count
     }
@@ -367,14 +380,17 @@ class MoveViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: - UITableViewDelegate Methods
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let label = labels[indexPath.row]
         moveEmailToLabel(labelName: label.name ?? "Sem Nome")
     }
     
-    func moveEmailToLabel(labelName: String) {
+    private func moveEmailToLabel(labelName: String) {
         updateEmailTopic(with: labelName)
     }
+    
+    // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "labelidentifier", let destinationVC = segue.destination as? DeliveredViewController, let label = sender as? Label {

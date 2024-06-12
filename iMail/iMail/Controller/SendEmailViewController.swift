@@ -3,16 +3,17 @@ import CoreData
 
 class SendEmailViewController: UIViewController, UITextViewDelegate {
     
+    // MARK: - Properties
+    
     var emails: [NSManagedObject] = []
     var senderEmail: String?
-    
-    // Variáveis para armazenar os dados do email original
     var originalEmailSender: String?
     var originalEmailTitle: String?
     var originalEmailMessage: String?
-    
-    // Ação do email (responder ou encaminhar)
     var emailAction: EmailHandler.EmailAction?
+    var originalMessageViewHeight: CGFloat?
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var sendEmailButton: UIButton!
     @IBOutlet weak var trashButton: UIButton!
@@ -23,128 +24,24 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var messageConstrain: NSLayoutConstraint!
     @IBOutlet weak var messageView: UIView!
     
-    var originalMessageViewHeight: CGFloat?
+    // MARK: - Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         loadSenderEmail()
         setupDismissKeyboardGesture()
-        messageTextView.delegate = self // Set delegate to self
+        messageTextView.delegate = self
         
-        // Save the original height of messageView
         originalMessageViewHeight = messageView.frame.height
         
-        // Configurar os campos com os dados do email original
-        if let action = emailAction {
-            switch action {
-            case .answer:
-                if let sender = originalEmailSender {
-                    toTextField.text = sender
-                }
-                if let title = originalEmailTitle {
-                    subjectEmailTextField.text = "Re: \(title)"
-                }
-                if let message = originalEmailMessage {
-                    messageTextView.text = "\n\n--- Mensagem Original ---\n\(message)"
-                }
-            case .forward:
-                if let title = originalEmailTitle {
-                    subjectEmailTextField.text = title.hasPrefix("Fw: ") ? title : "Fw: \(title)"
-                }
-                if let message = originalEmailMessage {
-                    messageTextView.text = "\n\n--- Mensagem Original ---\n\(message)"
-                }
-            }
-        }
+        // Configure os campos com os dados do email original
+        configureOriginalEmailData()
     }
     
-    // MARK: - Core Data Methods
-    func loadSenderEmail() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Person")
-        
-        do {
-            let result = try managedContext.fetch(fetchRequest)
-            if let person = result.first, let email = person.value(forKey: "email") as? String {
-                senderEmail = email
-                senderTextField.text = email
-            } else {
-                print("Nenhum email encontrado")
-            }
-        } catch {
-            print("Erro ao carregar o email do remetente: \(error)")
-        }
-    }
+    // MARK: - Setup Methods
     
-    func save(sender: String, message: String, subject: String, to: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Emails", in: managedContext)!
-        
-        let email = NSManagedObject(entity: entity, insertInto: managedContext)
-        email.setValue(sender, forKey: "sender")
-        email.setValue(message, forKey: "message")
-        email.setValue(subject, forKey: "subject")
-        email.setValue(to, forKey: "to")
-        email.setValue(Date(), forKey: "date")
-        email.setValue("usuarioEnviou", forKey: "topic")
-        
-        let fetchRequest: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Emails")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "index", ascending: false)]
-        fetchRequest.fetchLimit = 1
-        
-        do {
-            if let lastEmail = try managedContext.fetch(fetchRequest).first,
-               let lastIndex = lastEmail.value(forKey: "index") as? Int {
-                email.setValue(lastIndex + 1, forKey: "index")
-            } else {
-                email.setValue(0, forKey: "index")
-            }
-        } catch {
-            print("Erro ao recuperar o último índice: \(error)")
-        }
-        
-        do {
-            try managedContext.save()
-            emails.append(email)
-        } catch {
-            print("Erro ao salvar o email: \(error)")
-        }
-    }
-    
-    // MARK: - Action Methods
-    @IBAction func sendButtonClicked(_ sender: Any) {
-        guard let sender = senderTextField.text, !sender.isEmpty,
-              let message = messageTextView.text, !message.isEmpty,
-              let subject = subjectEmailTextField.text, !subject.isEmpty,
-              let to = toTextField.text, !to.isEmpty else {
-            showAlert(message: "Há um campo em vazio")
-            return
-        }
-        
-        if !isValidEmail(sender) {
-            showAlert(message: "Verificar o email do remetente digitado")
-            return
-        }
-        if !isValidEmail(to) {
-            showAlert(message: "Verificar o email do destinatário digitado")
-            return
-        }
-        
-        save(sender: sender, message: message, subject: subject, to: to)
-        showAlert(title: "Sucesso", message: "O e-mail foi enviado")
-    }
-    
-    @IBAction func trashButtonTapped(_ sender: Any) {
-        dismiss(animated: true)
-    }
-    
-    // MARK: - Helper Methods
-    func setupUI() {
+    private func setupUI() {
         navigationController?.isNavigationBarHidden = true
         sendEmailButton.layer.cornerRadius = 20
         sendEmailButton.clipsToBounds = true
@@ -204,29 +101,134 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
         textView.autocorrectionType = .yes
     }
     
-    private func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    private func configureOriginalEmailData() {
+        guard let action = emailAction else { return }
+        switch action {
+        case .answer:
+            if let sender = originalEmailSender {
+                toTextField.text = sender
+            }
+            if let title = originalEmailTitle {
+                subjectEmailTextField.text = "Re: \(title)"
+            }
+            if let message = originalEmailMessage {
+                messageTextView.text = "\n\n--- Mensagem Original ---\n\(message)"
+            }
+        case .forward:
+            if let title = originalEmailTitle {
+                subjectEmailTextField.text = title.hasPrefix("Fw: ") ? title : "Fw: \(title)"
+            }
+            if let message = originalEmailMessage {
+                messageTextView.text = "\n\n--- Mensagem Original ---\n\(message)"
+            }
+        }
+    }
+    
+    // MARK: - Core Data Methods
+    
+    private func loadSenderEmail() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Person")
+        
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            if let person = result.first, let email = person.value(forKey: "email") as? String {
+                senderEmail = email
+                senderTextField.text = email
+            } else {
+                print("Nenhum email encontrado")
+            }
+        } catch {
+            print("Erro ao carregar o email do remetente: \(error)")
+        }
+    }
+    
+    private func save(sender: String, message: String, subject: String, to: String) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Emails", in: managedContext)!
+        let email = NSManagedObject(entity: entity, insertInto: managedContext)
+        
+        email.setValue(sender, forKey: "sender")
+        email.setValue(message, forKey: "message")
+        email.setValue(subject, forKey: "subject")
+        email.setValue(to, forKey: "to")
+        email.setValue(Date(), forKey: "date")
+        email.setValue("usuarioEnviou", forKey: "topic")
+        
+        let fetchRequest: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Emails")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "index", ascending: false)]
+        fetchRequest.fetchLimit = 1
+        
+        do {
+            if let lastEmail = try managedContext.fetch(fetchRequest).first,
+               let lastIndex = lastEmail.value(forKey: "index") as? Int {
+                email.setValue(lastIndex + 1, forKey: "index")
+            } else {
+                email.setValue(0, forKey: "index")
+            }
+        } catch {
+            print("Erro ao recuperar o último índice: \(error)")
+        }
+        
+        do {
+            try managedContext.save()
+            emails.append(email)
+        } catch {
+            print("Erro ao salvar o email: \(error)")
+        }
+    }
+    
+    // MARK: - Action Methods
+    
+    @IBAction func sendButtonClicked(_ sender: Any) {
+        guard let sender = senderTextField.text, !sender.isEmpty,
+              let message = messageTextView.text, !message.isEmpty,
+              let subject = subjectEmailTextField.text, !subject.isEmpty,
+              let to = toTextField.text, !to.isEmpty else {
+            showAlert(message: "Há um campo em vazio")
+            return
+        }
+        
+        if !isValidEmail(sender) {
+            showAlert(message: "Verificar o email do remetente digitado")
+            return
+        }
+        if !isValidEmail(to) {
+            showAlert(message: "Verificar o email do destinatário digitado")
+            return
+        }
+        
+        save(sender: sender, message: message, subject: subject, to: to)
+        showAlert(title: "Sucesso", message: "O e-mail foi enviado")
+    }
+    
+    @IBAction func trashButtonTapped(_ sender: Any) {
+        dismiss(animated: true)
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func showAlert(title: String = "", message: String) {
+        let alertController = UIAlertController(title: title.isEmpty ? nil : title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            self.dismiss(animated: true, completion: nil)
+            if title == "Sucesso" {
+                self.dismiss(animated: true, completion: nil)
+            }
         }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
     
-    // MARK: - Alerts
-    private func showAlert(message: String) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    // MARK: - Validation
     private func isValidEmail(_ email: String) -> Bool {
         return email.contains("@") && email.contains(".com")
     }
     
     // MARK: - UITextViewDelegate Methods
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "Escreva seu Email aqui..." {
             textView.text = ""
@@ -234,14 +236,7 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
         }
         
         // Expand the messageView to the top of the screen
-        messageConstrain.isActive = false
-        messageView.translatesAutoresizingMaskIntoConstraints = false
-        messageConstrain = messageView.topAnchor.constraint(equalTo: view.topAnchor)
-        messageConstrain.isActive = true
-        
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
+        adjustMessageViewHeight(expand: true)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -251,9 +246,13 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
         }
         
         // Restore the original height of the messageView
+        adjustMessageViewHeight(expand: false)
+    }
+    
+    private func adjustMessageViewHeight(expand: Bool) {
         messageConstrain.isActive = false
         messageView.translatesAutoresizingMaskIntoConstraints = false
-        messageConstrain = messageView.heightAnchor.constraint(equalToConstant: originalMessageViewHeight ?? 200) // Default height
+        messageConstrain = expand ? messageView.topAnchor.constraint(equalTo: view.topAnchor) : messageView.heightAnchor.constraint(equalToConstant: originalMessageViewHeight ?? 200)
         messageConstrain.isActive = true
         
         UIView.animate(withDuration: 0.3) {
@@ -262,6 +261,7 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
     }
     
     // MARK: - Gesture Configuration
+    
     private func setupDismissKeyboardGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
