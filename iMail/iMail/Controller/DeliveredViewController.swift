@@ -54,6 +54,11 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
         configureTextField(enviadosSearchTextField)
         tableViewDelivered.separatorColor = .clear
         configureButton(deleteAllButton, imageName: "trashIcon")
+        
+        view.backgroundColor = ThemeManager.shared.fetchThemeColors()?.backgroundColor
+        subectLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        enviadosSearchTextField.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        
     }
     
     private func configureButton(_ button: UIButton, imageName: String) {
@@ -73,7 +78,7 @@ class DeliveredViewController: UIViewController, UITableViewDelegate, EmailDetai
         textField.font = UIFont.systemFont(ofSize: 17)
         textField.layer.masksToBounds = true
         textField.textColor = .white
-        textField.attributedPlaceholder = NSAttributedString(string: "Pesquisar em \(buttonTitle ?? "")", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        textField.attributedPlaceholder = NSAttributedString(string: "Pesquisar em \(buttonTitle ?? "")", attributes: [NSAttributedString.Key.foregroundColor: ThemeManager.shared.fetchThemeColors()?.labelColor ?? .black])
     }
     
     // MARK: - Core Data Methods

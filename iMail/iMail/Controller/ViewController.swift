@@ -20,21 +20,25 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
 
     // MARK: - IBOutlets
 
-    @IBOutlet weak var tableViewCxEntrada: UITableView!
-    @IBOutlet weak var backViewForMenu: UIView!
-    @IBOutlet weak var menuView: UIView!
-    @IBOutlet weak var leadingConstForMenuView: NSLayoutConstraint!
-    @IBOutlet weak var sendEmailButton: UIButton!
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var menubutton: UIButton!
-    @IBOutlet weak var calendarView: UIView!
-    @IBOutlet weak var cxEntradaView: UIView!
-    @IBOutlet weak var cxEntradaConstrain: NSLayoutConstraint!
-    @IBOutlet weak var midView: UIView!
+        @IBOutlet weak var tableViewCxEntrada: UITableView!
+        @IBOutlet weak var backViewForMenu: UIView!
+        @IBOutlet weak var menuView: UIView!
+        @IBOutlet weak var leadingConstForMenuView: NSLayoutConstraint!
+        @IBOutlet weak var sendEmailButton: UIButton!
+        @IBOutlet weak var searchTextField: UITextField!
+        @IBOutlet weak var menubutton: UIButton!
+        @IBOutlet weak var calendarView: UIView!
+        @IBOutlet weak var cxEntradaView: UIView!
+        @IBOutlet weak var cxEntradaConstrain: NSLayoutConstraint!
+        @IBOutlet weak var midView: UIView!
     
-    @IBOutlet weak var subjectEventLabel: UILabel!
-    @IBOutlet weak var hourEventLabel: UILabel!
-    @IBOutlet weak var dateEventLabel: UILabel!
+        @IBOutlet weak var subjectEventLabel: UILabel!
+        @IBOutlet weak var hourEventLabel: UILabel!
+        @IBOutlet weak var dateEventLabel: UILabel!
+        @IBOutlet weak var calendarTitleLabel: UILabel!
+        @IBOutlet weak var CxEntradaTitleLabel: UILabel!
+        @IBOutlet weak var separatorLabel: UILabel!
+    
 
     // MARK: - Lifecycle Methods
 
@@ -62,7 +66,12 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
         searchTextField.delegate = self
         setupMenuUI()
         originalCxEntradaConstraint = cxEntradaConstrain
-    }
+        
+        searchTextField.attributedPlaceholder = NSAttributedString(string: "Buscar", attributes: [NSAttributedString.Key.foregroundColor: ThemeManager.shared.fetchThemeColors()?.labelColor ?? .black])
+        
+        menubutton.setImage(UIImage(named: ThemeManager.shared.fetchButtonImageName()), for: .normal)
+        
+        }
 
     private func setupMenuUI() {
         configureButton(sendEmailButton, imageName: "ImageWriteButton", color: .white)
@@ -71,8 +80,18 @@ class ViewController: UIViewController, UITableViewDelegate, MenuViewControllerD
         
         tableViewCxEntrada.separatorColor = .clear
         backViewForMenu.backgroundColor = UIColor.gray.withAlphaComponent(0.3)
+        view.backgroundColor = ThemeManager.shared.fetchThemeColors()?.backgroundColor
+        calendarView.backgroundColor = ThemeManager.shared.fetchThemeColors()?.backgroundColor
+        searchTextField.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        subjectEventLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        calendarTitleLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        CxEntradaTitleLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        hourEventLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        dateEventLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        CxEntradaTitleLabel.backgroundColor = ThemeManager.shared.fetchThemeColors()?.backgroundColor
+        separatorLabel.backgroundColor = ThemeManager.shared.fetchThemeColors()?.backgroundColor
     }
-
+    
     private func configureTapGestures() {
         let calendarTapGesture = UITapGestureRecognizer(target: self, action: #selector(calendarViewTapped))
         calendarView.addGestureRecognizer(calendarTapGesture)

@@ -111,7 +111,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H8b-EM-lx3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="169" y="901"/>
+            <point key="canvasLocation" x="47" y="704"/>
         </scene>
         <!--Send Email View Controller-->
         <scene sceneID="tfZ-av-zfG">
@@ -247,18 +247,21 @@
                     <navigationItem key="navigationItem" id="PFY-6u-QV2"/>
                     <connections>
                         <outlet property="messageConstrain" destination="ocm-1n-yd0" id="gO0-gk-es7"/>
+                        <outlet property="messageLabel" destination="Lvx-mc-GOR" id="CsY-Bv-7fw"/>
                         <outlet property="messageTextView" destination="JHJ-Gw-VwY" id="j6Y-wD-Ett"/>
                         <outlet property="messageView" destination="kRE-YO-C8T" id="k0e-is-avf"/>
                         <outlet property="sendEmailButton" destination="gAg-aQ-rg1" id="H1f-BM-wcs"/>
                         <outlet property="senderTextField" destination="qAX-zx-5yr" id="drH-Az-oSF"/>
                         <outlet property="subjectEmailTextField" destination="hmw-0a-EOo" id="u40-h2-6CQ"/>
+                        <outlet property="subjectLabel" destination="6fA-1A-hnS" id="3sN-hY-jB8"/>
+                        <outlet property="titleScreen" destination="0gd-Fw-u1k" id="zFc-PI-wKe"/>
                         <outlet property="toTextField" destination="IhE-cJ-eGy" id="Prf-YF-6Fc"/>
                         <outlet property="trashButton" destination="IdI-Ui-6cF" id="B1T-6v-CzZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M4C-Fn-4JY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="971.7557251908396" y="901.4084507042254"/>
+            <point key="canvasLocation" x="972" y="704"/>
         </scene>
         <!--Email Details View Controller-->
         <scene sceneID="W1N-1M-W0u">
@@ -302,7 +305,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXx-s6-6B8">
-                                <rect key="frame" x="20" y="224.33333333333334" width="15" height="34.000000000000028"/>
+                                <rect key="frame" x="20" y="224.66666666666666" width="15" height="33.999999999999972"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="RI0-uL-tbT"/>
                                     <constraint firstAttribute="width" constant="15" id="pJU-Ca-SDZ"/>
@@ -431,7 +434,7 @@
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="menuButtonImage"/>
+                                        <buttonConfiguration key="configuration" style="plain"/>
                                         <connections>
                                             <action selector="menuButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KpK-bw-lKQ"/>
                                         </connections>
@@ -488,7 +491,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.14901960780000001" green="0.2156862745" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="jxU-NG-ZV1" secondAttribute="trailing" constant="15" id="0G2-5G-srm"/>
                                     <constraint firstItem="CE6-0y-HcW" firstAttribute="top" secondItem="5tH-Px-7FF" secondAttribute="bottom" constant="20" id="9tP-mo-tZo"/>
@@ -523,10 +526,10 @@
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="T8n-LA-2If">
                                         <rect key="frame" x="16" y="45" width="361" height="411.33333333333331"/>
-                                        <color key="backgroundColor" red="0.14901960780000001" green="0.2156862745" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <color key="sectionIndexBackgroundColor" red="0.14901960780000001" green="0.2156862745" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="sectionIndexTrackingBackgroundColor" red="0.14901960780000001" green="0.2156862745" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="140" id="39m-uP-c2q">
                                                 <rect key="frame" x="0.0" y="50" width="361" height="140"/>
@@ -544,7 +547,7 @@
                                         </connections>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.14901960780000001" green="0.2156862745" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="T8n-LA-2If" firstAttribute="top" secondItem="IPS-no-vk1" secondAttribute="bottom" constant="10" id="DkJ-iD-c6O"/>
                                     <constraint firstItem="IPS-no-vk1" firstAttribute="centerY" secondItem="5Fc-ca-Baj" secondAttribute="centerY" id="Jjo-dr-HZR"/>
@@ -554,7 +557,6 @@
                                     <constraint firstItem="5Fc-ca-Baj" firstAttribute="top" secondItem="pKf-sg-n2h" secondAttribute="top" constant="3" id="XgO-ZS-GnF"/>
                                     <constraint firstItem="IPS-no-vk1" firstAttribute="leading" secondItem="5Fc-ca-Baj" secondAttribute="trailing" constant="5" id="Xl1-NQ-KLy"/>
                                     <constraint firstAttribute="bottom" secondItem="T8n-LA-2If" secondAttribute="bottom" id="ka8-EU-VSK"/>
-                                    <constraint firstItem="IPS-no-vk1" firstAttribute="leading" secondItem="5Fc-ca-Baj" secondAttribute="trailing" constant="5" id="nd5-8j-3wG"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RPJ-s0-6yc">
@@ -634,7 +636,9 @@
                         <barButtonItem key="backBarButtonItem" title="Voltar" id="7Kh-lc-wIx"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="CxEntradaTitleLabel" destination="IPS-no-vk1" id="gGD-5t-jSb"/>
                         <outlet property="backViewForMenu" destination="hNr-8Q-MFF" id="OAI-k1-XfC"/>
+                        <outlet property="calendarTitleLabel" destination="CE6-0y-HcW" id="g7D-sL-rDI"/>
                         <outlet property="calendarView" destination="GWk-an-alq" id="crP-uO-EnO"/>
                         <outlet property="cxEntradaConstrain" destination="cQX-xC-lVd" id="xbB-7A-inR"/>
                         <outlet property="cxEntradaView" destination="pKf-sg-n2h" id="SFg-m7-xzw"/>
@@ -646,6 +650,7 @@
                         <outlet property="midView" destination="SBz-wg-hBu" id="omZ-9w-9fM"/>
                         <outlet property="searchTextField" destination="jxU-NG-ZV1" id="AvD-ei-lH5"/>
                         <outlet property="sendEmailButton" destination="RPJ-s0-6yc" id="RAN-Gt-sVx"/>
+                        <outlet property="separatorLabel" destination="5Fc-ca-Baj" id="fKc-qQ-8wc"/>
                         <outlet property="subjectEventLabel" destination="R5C-D3-dBG" id="lEf-Ur-wKb"/>
                         <outlet property="tableViewCxEntrada" destination="T8n-LA-2If" id="uJ2-pW-Og4"/>
                         <segue destination="RzE-iF-Odw" kind="show" identifier="SendEmailViewController" id="GMr-MY-4P3"/>
@@ -777,7 +782,7 @@
                                     <constraint firstAttribute="height" constant="35" id="fJt-Nx-f8X"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="bookmark"/>
+                                <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system"/>
                                 <connections>
                                     <action selector="bookmarkButtonTapped:" destination="ssM-28-avM" eventType="touchUpInside" id="fXV-Lg-FnF"/>
                                 </connections>
@@ -847,8 +852,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="Dh5-yR-MiX"/>
                     <connections>
+                        <outlet property="addButton" destination="qWy-GY-KdO" id="wKB-p5-4fb"/>
                         <outlet property="asnwerButton" destination="lsJ-mT-Lrf" id="APz-k1-6Hz"/>
                         <outlet property="bookmarkButton" destination="mBg-Hf-CMv" id="1PU-Xa-IQa"/>
+                        <outlet property="calendarButton" destination="giS-8I-fFZ" id="nfD-aq-KJu"/>
                         <outlet property="dateLabel" destination="Nub-7B-Egi" id="QiC-ZJ-jHu"/>
                         <outlet property="forwardButton" destination="fRd-9B-PFb" id="uAe-Su-2EZ"/>
                         <outlet property="messageTextView" destination="70p-MB-UPl" id="LK9-2j-60y"/>
@@ -1004,12 +1011,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="l0v-ZR-0cG"/>
                     <connections>
+                        <outlet property="addButton" destination="99i-Fg-Z8a" id="LVD-uk-wsa"/>
                         <outlet property="cxEntradaButton" destination="uKY-9v-RgY" id="hGt-4A-2ZZ"/>
+                        <outlet property="cxEntradaTitleLabel" destination="6my-FF-F2H" id="ctD-An-Tsm"/>
                         <outlet property="favoritosButton" destination="FNh-lY-L3b" id="eiI-xo-16s"/>
                         <outlet property="labelsTableView" destination="Occ-18-Uah" id="Lix-YK-1yo"/>
                         <outlet property="labelsView" destination="grt-7n-NoM" id="sWg-eo-BxQ"/>
                         <outlet property="lixeiraButton" destination="E19-EG-3Xy" id="5A9-Tp-mUt"/>
                         <outlet property="spamButton" destination="x2U-To-YRy" id="OYY-a2-Jej"/>
+                        <outlet property="titleLabel" destination="fA4-Kv-T8m" id="sN1-SM-P1d"/>
                         <segue destination="mBi-BM-YWT" kind="show" identifier="labelidentifier" id="DYU-cf-aPB"/>
                     </connections>
                 </viewController>
@@ -1084,8 +1094,11 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yC7-ht-BXo">
-                                        <rect key="frame" x="0.0" y="438.33333333333331" width="124" height="35"/>
+                                        <rect key="frame" x="0.0" y="438.33333333333331" width="130" height="35"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="130" id="Ff8-bP-2rT"/>
+                                        </constraints>
                                         <color key="tintColor" systemColor="systemRedColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Sair da conta"/>
@@ -1094,13 +1107,19 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ygo-Vy-7Oo">
-                                        <rect key="frame" x="0.0" y="395.33333333333331" width="124" height="35"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <rect key="frame" x="0.0" y="388.33333333333331" width="35" height="35"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="1LF-u7-rQb"/>
+                                            <constraint firstAttribute="width" constant="35" id="hds-ar-loV"/>
+                                        </constraints>
                                         <color key="tintColor" systemColor="systemRedColor"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Gerar email"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="">
+                                            <backgroundConfiguration key="background"/>
+                                        </buttonConfiguration>
                                         <connections>
-                                            <action selector="generateEmailTapped:" destination="9eG-aG-oIx" eventType="touchUpInside" id="xKg-TF-Kpn"/>
+                                            <action selector="darkModeButtonTapped:" destination="9eG-aG-oIx" eventType="touchUpInside" id="wwR-6A-xdb"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dd2-TR-k0M">
@@ -1112,22 +1131,56 @@
                                             <action selector="labelsButtonTapped:" destination="9eG-aG-oIx" eventType="touchUpInside" id="hfG-RL-2kk"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="blN-kZ-XW6">
+                                        <rect key="frame" x="95" y="388.33333333333331" width="35" height="35"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="MfZ-AU-n6z"/>
+                                            <constraint firstAttribute="width" constant="35" id="hOu-EG-PYu"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="systemRedColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title=""/>
+                                        <connections>
+                                            <action selector="highcontrastModeButtonTapped:" destination="9eG-aG-oIx" eventType="touchUpInside" id="clZ-jy-bYJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fst-8C-bFQ">
+                                        <rect key="frame" x="47.666666666666657" y="388.33333333333331" width="35" height="35"/>
+                                        <color key="backgroundColor" red="0.098039215690000001" green="0.16862745100000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="35" id="buZ-Ls-6Pa"/>
+                                            <constraint firstAttribute="height" constant="35" id="iNu-gd-ZjJ"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="systemRedColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title=""/>
+                                        <connections>
+                                            <action selector="defaultModeButtonTapped:" destination="9eG-aG-oIx" eventType="touchUpInside" id="iCu-B1-Ori"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temas:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rzH-4G-euc">
+                                        <rect key="frame" x="0.0" y="352.33333333333331" width="55" height="21"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="loe-Tc-6rm" firstAttribute="top" secondItem="mom-QZ-PmL" secondAttribute="bottom" constant="10" id="1Ay-3u-uwd"/>
                                     <constraint firstItem="Dd2-TR-k0M" firstAttribute="top" secondItem="MBB-LR-GkC" secondAttribute="bottom" constant="30" id="5fm-AH-bpo"/>
                                     <constraint firstAttribute="trailing" secondItem="loe-Tc-6rm" secondAttribute="trailing" constant="10" id="5qi-8Z-0XH"/>
-                                    <constraint firstItem="yC7-ht-BXo" firstAttribute="trailing" secondItem="ygo-Vy-7Oo" secondAttribute="trailing" id="8HC-Iu-l9K"/>
                                     <constraint firstAttribute="trailing" secondItem="mom-QZ-PmL" secondAttribute="trailing" constant="10" id="9X6-i6-bqK"/>
                                     <constraint firstAttribute="trailing" secondItem="h6y-VF-kaS" secondAttribute="trailing" constant="10" id="BPK-IB-Kek"/>
                                     <constraint firstItem="mom-QZ-PmL" firstAttribute="leading" secondItem="u5h-Xr-w8v" secondAttribute="leading" id="CIx-92-KGW"/>
-                                    <constraint firstItem="yC7-ht-BXo" firstAttribute="leading" secondItem="ygo-Vy-7Oo" secondAttribute="leading" id="Ce9-VI-30m"/>
-                                    <constraint firstItem="yC7-ht-BXo" firstAttribute="top" secondItem="ygo-Vy-7Oo" secondAttribute="bottom" constant="8" id="FG7-jO-PEw"/>
                                     <constraint firstItem="Dd2-TR-k0M" firstAttribute="trailing" secondItem="MBB-LR-GkC" secondAttribute="trailing" id="Fsj-ca-06L"/>
                                     <constraint firstItem="h6y-VF-kaS" firstAttribute="top" secondItem="cSl-TB-kcl" secondAttribute="bottom" constant="10" id="GZ1-Qk-Jz3"/>
                                     <constraint firstItem="mom-QZ-PmL" firstAttribute="top" secondItem="u5h-Xr-w8v" secondAttribute="top" id="INC-BR-ce5"/>
+                                    <constraint firstItem="yC7-ht-BXo" firstAttribute="trailing" secondItem="blN-kZ-XW6" secondAttribute="trailing" id="KGC-vn-1rR"/>
                                     <constraint firstItem="MBB-LR-GkC" firstAttribute="leading" secondItem="mom-QZ-PmL" secondAttribute="leading" id="LMm-Ra-9op"/>
+                                    <constraint firstItem="fst-8C-bFQ" firstAttribute="bottom" secondItem="ygo-Vy-7Oo" secondAttribute="bottom" id="PDA-Z2-6F3"/>
                                     <constraint firstItem="yC7-ht-BXo" firstAttribute="leading" secondItem="MBB-LR-GkC" secondAttribute="leading" id="QTv-RR-yQi"/>
                                     <constraint firstAttribute="trailing" secondItem="mom-QZ-PmL" secondAttribute="trailing" constant="10" id="QdF-w5-EF1"/>
                                     <constraint firstItem="loe-Tc-6rm" firstAttribute="leading" secondItem="mom-QZ-PmL" secondAttribute="leading" id="UoP-ov-Aub"/>
@@ -1135,10 +1188,16 @@
                                     <constraint firstAttribute="trailing" secondItem="cSl-TB-kcl" secondAttribute="trailing" constant="10" id="WDb-fP-GL5"/>
                                     <constraint firstItem="MBB-LR-GkC" firstAttribute="top" secondItem="h6y-VF-kaS" secondAttribute="bottom" constant="10" id="WQj-rL-wbQ"/>
                                     <constraint firstAttribute="trailing" secondItem="MBB-LR-GkC" secondAttribute="trailing" constant="10" id="aYI-5T-Z9V"/>
+                                    <constraint firstItem="blN-kZ-XW6" firstAttribute="bottom" secondItem="ygo-Vy-7Oo" secondAttribute="bottom" id="ct1-OB-aas"/>
                                     <constraint firstItem="h6y-VF-kaS" firstAttribute="leading" secondItem="mom-QZ-PmL" secondAttribute="leading" id="er8-Ew-Mab"/>
+                                    <constraint firstItem="ygo-Vy-7Oo" firstAttribute="leading" secondItem="rzH-4G-euc" secondAttribute="leading" id="fSZ-df-2Yl"/>
+                                    <constraint firstItem="yC7-ht-BXo" firstAttribute="top" secondItem="ygo-Vy-7Oo" secondAttribute="bottom" constant="15" id="fbT-cm-NJB"/>
                                     <constraint firstItem="cSl-TB-kcl" firstAttribute="top" secondItem="loe-Tc-6rm" secondAttribute="bottom" constant="10" id="iZ6-R6-cxW"/>
+                                    <constraint firstItem="ygo-Vy-7Oo" firstAttribute="top" secondItem="rzH-4G-euc" secondAttribute="bottom" constant="15" id="rBI-Vt-fOc"/>
+                                    <constraint firstItem="yC7-ht-BXo" firstAttribute="leading" secondItem="ygo-Vy-7Oo" secondAttribute="leading" id="ubK-xG-Bfh"/>
                                     <constraint firstItem="cSl-TB-kcl" firstAttribute="leading" secondItem="mom-QZ-PmL" secondAttribute="leading" id="vna-TN-AgJ"/>
                                     <constraint firstAttribute="bottom" secondItem="yC7-ht-BXo" secondAttribute="bottom" constant="8" id="x0l-2p-yci"/>
+                                    <constraint firstItem="yC7-ht-BXo" firstAttribute="centerX" secondItem="fst-8C-bFQ" secondAttribute="centerX" id="y8Q-ZM-oL0"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AWD-js-cV5">
@@ -1202,7 +1261,9 @@
                     </view>
                     <connections>
                         <outlet property="LabelsButton" destination="Dd2-TR-k0M" id="tTL-nK-YEK"/>
-                        <outlet property="generateEmailButton" destination="ygo-Vy-7Oo" id="2dD-0p-sJH"/>
+                        <outlet property="darkModeButton" destination="ygo-Vy-7Oo" id="aCC-tJ-SYr"/>
+                        <outlet property="defaultModeButton" destination="fst-8C-bFQ" id="Eb8-vA-feS"/>
+                        <outlet property="highcontrastModeButton" destination="blN-kZ-XW6" id="hoY-Eo-fP6"/>
                         <outlet property="logoffButton" destination="yC7-ht-BXo" id="taV-iU-iqj"/>
                         <outlet property="profileLabelUser" destination="TLG-cQ-HU5" id="Kly-Wa-niF"/>
                         <outlet property="profileMenuView" destination="Ph4-uE-utJ" id="wMJ-xL-fSU"/>
@@ -1212,7 +1273,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uK6-hA-B40" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="883.96946564885491" y="-695.42253521126759"/>
+            <point key="canvasLocation" x="883.96946564885491" y="-695.77464788732402"/>
         </scene>
         <!--Delivered View Controller-->
         <scene sceneID="679-OJ-kO3">
@@ -1273,7 +1334,7 @@
                                         </connections>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.14901960780000001" green="0.2156862745" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="6bp-9U-0Pe" secondAttribute="trailing" constant="20" id="GEt-ZJ-R3b"/>
                                     <constraint firstItem="6bp-9U-0Pe" firstAttribute="top" secondItem="7rV-mP-ceC" secondAttribute="top" constant="20" id="WTJ-aC-neb"/>
@@ -1359,20 +1420,19 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="etJ-jE-5iR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-740" y="901"/>
+            <point key="canvasLocation" x="-1242" y="901"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="7NU-Ot-ASe"/>
-        <segue reference="w4R-do-wKL"/>
+        <segue reference="UTw-c3-8qj"/>
         <segue reference="GMr-MY-4P3"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="LogoImail" width="604" height="266"/>
-        <image name="bookmark" width="18" height="22"/>
+        <image name="bookmark" catalog="system" width="110" height="128"/>
         <image name="calendar.badge.plus" catalog="system" width="128" height="109"/>
         <image name="emailImageWhite" width="34" height="34"/>
-        <image name="menuButtonImage" width="33" height="33"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="plus.square" catalog="system" width="128" height="114"/>
         <image name="trashIcon" width="18" height="24"/>
@@ -1383,7 +1443,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

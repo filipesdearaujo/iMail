@@ -30,6 +30,14 @@ class EmailDetailsViewController: UIViewController {
         trashButton.layer.cornerRadius = 20
         addTopLine(to: emailMessageView)
         messageTextView.isEditable = false
+
+        view.backgroundColor = ThemeManager.shared.fetchThemeColors()?.backgroundColor
+        dateLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        subjectLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        senderLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        toLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        messageTextView.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        trashButton.backgroundColor = ThemeManager.shared.fetchThemeColors()?.secondColor
     }
 
     private func configureButton(_ button: UIButton, imageName: String) {

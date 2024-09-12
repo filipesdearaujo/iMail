@@ -32,6 +32,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="backView" destination="H2p-sc-9uM" id="e3W-fw-wZx"/>
                 <outlet property="labelButton" destination="AUd-nE-dEv" id="aSu-VR-Hnd"/>
             </connections>
             <point key="canvasLocation" x="90.839694656488547" y="-10.563380281690142"/>

@@ -16,17 +16,25 @@ class RecievedEmailDetailsViewController: UIViewController, EKEventEditViewDeleg
     
     // MARK: - IBOutlets
     
-    @IBOutlet weak var trashButton: UIButton!
-    @IBOutlet weak var bookmarkButton: UIButton!
-    @IBOutlet weak var toLabel: UILabel!
+
+
     @IBOutlet weak var toImage: UIImageView!
+    
     @IBOutlet weak var senderLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
+    @IBOutlet weak var toLabel: UILabel!
+    
     @IBOutlet weak var messageView: UIView!
     @IBOutlet weak var messageTextView: UITextView!
+    
     @IBOutlet weak var forwardButton: UIButton!
     @IBOutlet weak var asnwerButton: UIButton!
+    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var trashButton: UIButton!
+    @IBOutlet weak var bookmarkButton: UIButton!
+    @IBOutlet weak var calendarButton: UIButton!
+    
     
     // MARK: - Lifecycle Methods
     
@@ -40,13 +48,24 @@ class RecievedEmailDetailsViewController: UIViewController, EKEventEditViewDeleg
     
     private func setupUI() {
         configImageButton(button: trashButton, imageName: "trashIcon", color: .clear)
-        configImageButton(button: bookmarkButton, imageName: "bookmark", color: .clear)
         configImageButton(button: forwardButton, imageName: "enviarButton", color: .white)
         configImageButton(button: asnwerButton, imageName: "reply", color: .red)
         asnwerButton.layer.cornerRadius = 20
         forwardButton.layer.cornerRadius = 20
         addTopLine(to: messageView)
         messageTextView.isEditable = false
+        
+        view.backgroundColor = ThemeManager.shared.fetchThemeColors()?.backgroundColor
+        forwardButton.backgroundColor = ThemeManager.shared.fetchThemeColors()?.secondColor
+        addButton.tintColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        asnwerButton.tintColor = .white
+        bookmarkButton.tintColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        calendarButton.tintColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        senderLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        dateLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        subjectLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        toLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        messageTextView.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
     }
     
     private func configImageButton(button: UIButton, imageName: String, color: UIColor) {

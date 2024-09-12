@@ -94,7 +94,8 @@ class LoginViewController: UIViewController {
         person.setValue(name, forKey: "name")
         person.setValue(email, forKey: "email")
         person.setValue(password, forKey: "password")
-        
+        person.setValue("highcontrastMode", forKey: "theme")
+
         do {
             try managedContext.save()
             people.append(person)

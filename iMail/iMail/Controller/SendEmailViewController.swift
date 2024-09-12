@@ -24,6 +24,11 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var messageConstrain: NSLayoutConstraint!
     @IBOutlet weak var messageView: UIView!
     
+    @IBOutlet weak var titleScreen: UILabel!
+    @IBOutlet weak var subjectLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
+    
+    
     // MARK: - Lifecycle Methods
     
     override func viewDidLoad() {
@@ -34,8 +39,6 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
         messageTextView.delegate = self
         
         originalMessageViewHeight = messageView.frame.height
-        
-        // Configure os campos com os dados do email original
         configureOriginalEmailData()
     }
     
@@ -51,6 +54,29 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
         configureTextView(messageTextView)
         configureButton(sendEmailButton, imageName: "enviarButton")
         configureButton(trashButton, imageName: "trashIcon")
+        
+        view.backgroundColor = ThemeManager.shared.fetchThemeColors()?.backgroundColor
+        messageView.backgroundColor = ThemeManager.shared.fetchThemeColors()?.backgroundColor
+        sendEmailButton.backgroundColor = ThemeManager.shared.fetchThemeColors()?.secondColor
+        messageTextView.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        messageTextView.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        titleScreen.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        subjectLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        messageLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        senderTextField.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        subjectEmailTextField.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        toTextField.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+
+
+        
+        senderTextField.attributedPlaceholder = NSAttributedString(string: "De", attributes: [NSAttributedString.Key.foregroundColor: ThemeManager.shared.fetchThemeColors()?.labelColor ?? .black]
+        )
+        
+        subjectEmailTextField.attributedPlaceholder = NSAttributedString(string: "Assunto:", attributes: [NSAttributedString.Key.foregroundColor: ThemeManager.shared.fetchThemeColors()?.labelColor ?? .black]
+        )
+        
+        toTextField.attributedPlaceholder = NSAttributedString(string: "Para", attributes: [NSAttributedString.Key.foregroundColor: ThemeManager.shared.fetchThemeColors()?.labelColor ?? .black]
+        )
     }
     
     private func configureButton(_ button: UIButton, imageName: String) {
@@ -202,6 +228,11 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
             return
         }
         
+        if checkEmailLimitReached() {
+            showAlert(message: "Não é possível enviar mais e-mails. o Limite de 10 e-mails foi atingido.")
+            return
+        }
+        
         save(sender: sender, message: message, subject: subject, to: to)
         showAlert(title: "Sucesso", message: "O e-mail foi enviado")
     }
@@ -226,6 +257,29 @@ class SendEmailViewController: UIViewController, UITextViewDelegate {
     private func isValidEmail(_ email: String) -> Bool {
         return email.contains("@") && email.contains(".com")
     }
+    
+    private func checkEmailLimitReached() -> Bool {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Emails")
+        
+        // Criar um filtro para emails enviados hoje
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: Date())
+        
+        let predicate = NSPredicate(format: "date >= %@", startOfDay as NSDate)
+        fetchRequest.predicate = predicate
+        
+        do {
+            let emailsSentToday = try managedContext.fetch(fetchRequest)
+            return emailsSentToday.count >= 10
+        } catch {
+            print("Erro ao verificar o limite de emails: \(error)")
+            return false
+        }
+    }
+
     
     // MARK: - UITextViewDelegate Methods
     

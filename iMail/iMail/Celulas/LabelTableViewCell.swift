@@ -1,18 +1,13 @@
-//
-//  LabelTableViewCell.swift
-//  iMail
-//
-//  Created by Yuri Araujo on 06/06/24.
-//
-
 import UIKit
 
 class LabelTableViewCell: UITableViewCell {
-    
+        
     @IBOutlet weak var labelButton: UILabel!
+    @IBOutlet weak var backView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        applyTheme()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -29,6 +24,15 @@ class LabelTableViewCell: UITableViewCell {
     
     static var cellIdentifier: String {
         return "labelCell"
+    }
+    
+    private func applyTheme() {
+        // Obtém as cores do tema através do ThemeManager
+        if let themeColors = ThemeManager.shared.fetchThemeColors() {
+            // Aplicando as cores no backView e labels
+            backView.backgroundColor = themeColors.backgroundColor
+            labelButton.textColor = themeColors.labelColor
+        }
     }
 }
 

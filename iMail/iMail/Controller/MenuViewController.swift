@@ -13,7 +13,7 @@ class MenuViewController: UIViewController {
     
     var delegate: MenuViewControllerDelegate?
     weak var emailUpdateDelegate: EmailUpdateDelegate?
-    var labels: [Label] = [] // Armazena os objetos Label
+    var labels: [Label] = []
     
     // MARK: - IBOutlets
     
@@ -22,7 +22,9 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var profileLabelUser: UILabel!
     @IBOutlet weak var userEmailLabel: UILabel!
     @IBOutlet weak var logoffButton: UIButton!
-    @IBOutlet weak var generateEmailButton: UIButton!
+    @IBOutlet weak var darkModeButton: UIButton!
+    @IBOutlet weak var defaultModeButton: UIButton!
+    @IBOutlet weak var highcontrastModeButton: UIButton!
     @IBOutlet weak var LabelsButton: UIButton!
 
     // MARK: - Lifecycle Methods
@@ -47,8 +49,11 @@ class MenuViewController: UIViewController {
         profilePictureImage.clipsToBounds = true
         logoffButton.layer.cornerRadius = 10
         logoffButton.clipsToBounds = true
-        generateEmailButton.layer.cornerRadius = 10
-        generateEmailButton.clipsToBounds = true
+        
+        profileMenuView.backgroundColor = ThemeManager.shared.fetchThemeColors()?.backgroundColor
+        profileLabelUser.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        userEmailLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
+        
     }
     
     private func loadUserInfo() {
@@ -126,10 +131,60 @@ class MenuViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    @IBAction func generateEmailTapped(_ sender: Any) {
-        createEmail()
-        emailUpdateDelegate?.didUpdateEmails()  // Notificar o delegate que os emails foram atualizados
+    @IBAction func darkModeButtonTapped(_ sender: UIButton) {
+        showThemeChangeAlert(for: "darkMode")
     }
+
+    @IBAction func defaultModeButtonTapped(_ sender: UIButton) {
+        showThemeChangeAlert(for: "defaultMode")
+    }
+
+    @IBAction func highcontrastModeButtonTapped(_ sender: UIButton) {
+        showThemeChangeAlert(for: "highcontrastMode")
+    }
+
+    private func showThemeChangeAlert(for theme: String) {
+        let alert = UIAlertController(title: "Alterar Tema", message: "Tem certeza de que deseja alterar o tema? O aplicativo será fechado automaticamente.", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+        
+        let confirmAction = UIAlertAction(title: "Sim", style: .destructive) { _ in
+            self.updateThemeInCoreData(to: theme)
+            self.restartApp()
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+
+    private func updateThemeInCoreData(to theme: String) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Person")
+        
+        do {
+            let people = try managedContext.fetch(fetchRequest)
+            if let person = people.first {
+                person.setValue(theme, forKey: "theme")
+                try managedContext.save()
+                print("Tema atualizado para: \(theme)")
+            }
+        } catch let error as NSError {
+            print("Erro ao atualizar o tema: \(error)")
+        }
+    }
+
+    private func restartApp() {
+        // Simula o encerramento do aplicativo e o iOS reiniciará o app.
+        exit(0)
+    }
+
+
 
     // MARK: - Helper Methods
 

@@ -9,7 +9,7 @@ import UIKit
 
 class DeliveredTableViewCell: UITableViewCell {
 
-    
+
     @IBOutlet weak var senderLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
@@ -22,6 +22,7 @@ class DeliveredTableViewCell: UITableViewCell {
         super.awakeFromNib()
         self.frame.size.height = 100
         configureCell()
+        applyTheme()
     }
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -49,4 +50,16 @@ class DeliveredTableViewCell: UITableViewCell {
         backView.layer.cornerRadius = 20
         backView.layer.masksToBounds = true
     }
+    private func applyTheme() {
+        // Obtém as cores do tema através do ThemeManager
+        if let themeColors = ThemeManager.shared.fetchThemeColors() {
+            // Aplicando as cores no backView e labels
+            backView.backgroundColor = themeColors.secondColor
+            senderLabel.textColor = themeColors.labelColor
+            subjectLabel.textColor = themeColors.labelColor
+            messageLabel.textColor = themeColors.labelColor
+            dateLabel.textColor = themeColors.labelColor
+        }
+    }
+    
 }
