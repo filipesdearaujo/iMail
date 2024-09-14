@@ -56,7 +56,7 @@ class RecievedEmailDetailsViewController: UIViewController, EKEventEditViewDeleg
         messageTextView.isEditable = false
         
         view.backgroundColor = ThemeManager.shared.fetchThemeColors()?.backgroundColor
-        forwardButton.backgroundColor = ThemeManager.shared.fetchThemeColors()?.secondColor
+        forwardButton.backgroundColor = ThemeManager.shared.fetchThemeColors()?.labelColor
         addButton.tintColor = ThemeManager.shared.fetchThemeColors()?.labelColor
         asnwerButton.tintColor = .white
         bookmarkButton.tintColor = ThemeManager.shared.fetchThemeColors()?.labelColor

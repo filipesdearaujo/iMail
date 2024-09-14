@@ -54,6 +54,9 @@ class MenuViewController: UIViewController {
         profileLabelUser.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
         userEmailLabel.textColor = ThemeManager.shared.fetchThemeColors()?.labelColor
         
+        highcontrastModeButton.layer.cornerRadius = 10
+        darkModeButton.layer.cornerRadius = 10
+        defaultModeButton.layer.cornerRadius = 10
     }
     
     private func loadUserInfo() {
@@ -117,7 +120,7 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func logoffButtonTapped(_ sender: Any) {
-        let alertController = UIAlertController(title: "Sair", message: "Você realmente deseja sair? Isso apagará todos os emails e dados salvos.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Sair", message: "Você realmente deseja Excluir? Isso apagará todos os emails e dados salvos.", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
         let logoutAction = UIAlertAction(title: "Sair", style: .destructive) { _ in
@@ -142,6 +145,46 @@ class MenuViewController: UIViewController {
     @IBAction func highcontrastModeButtonTapped(_ sender: UIButton) {
         showThemeChangeAlert(for: "highcontrastMode")
     }
+    
+    private func selectTheme() {
+        darkModeButton.layer.borderColor = UIColor.clear.cgColor
+        defaultModeButton.layer.borderColor = UIColor.clear.cgColor
+        highcontrastModeButton.layer.borderColor = UIColor.clear.cgColor
+        
+        // Buscar o tema salvo no Core Data
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            print("Erro ao acessar o AppDelegate.")
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Person")
+        
+        do {
+            let people = try managedContext.fetch(fetchRequest)
+            
+            if let person = people.first, let savedTheme = person.value(forKey: "theme") as? String {
+                print("Tema salvo no Core Data: \(savedTheme)")
+                
+                // Destacar o botão correto com base no tema salvo
+                switch savedTheme {
+                case "darkMode":
+                    darkModeButton.layer.borderColor = UIColor.red.cgColor
+                case "defaultMode":
+                    defaultModeButton.layer.borderColor = UIColor.red.cgColor
+                case "highcontrastMode":
+                    highcontrastModeButton.layer.borderColor = UIColor.red.cgColor
+                default:
+                    print("Tema não reconhecido.")
+                }
+            } else {
+                print("Nenhum tema encontrado para o usuário.")
+            }
+        } catch let error as NSError {
+            print("Erro ao buscar dados do Core Data: \(error), \(error.userInfo)")
+        }
+    }
+
 
     private func showThemeChangeAlert(for theme: String) {
         let alert = UIAlertController(title: "Alterar Tema", message: "Tem certeza de que deseja alterar o tema? O aplicativo será fechado automaticamente.", preferredStyle: .alert)
